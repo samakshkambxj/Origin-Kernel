@@ -1687,6 +1687,8 @@ static int zram_recompress(struct zram *zram, u32 index, struct page *page,
 	unsigned long handle_new;
 	unsigned int comp_len_old;
 	unsigned int comp_len_new;
+	unsigned int class_index_old;
+	unsigned int class_index_new;
 	void *src, *dst;
 	int ret;
 
@@ -1705,6 +1707,7 @@ static int zram_recompress(struct zram *zram, u32 index, struct page *page,
 	if (ret)
 		return ret;
 
+	class_index_old = zs_lookup_class_index(zram->mem_pool, comp_len_old);
 	/*
 	 * Iterate the secondary comp algorithms list (in order of priority)
 	 * and try to recompress the page.
@@ -1730,9 +1733,13 @@ static int zram_recompress(struct zram *zram, u32 index, struct page *page,
 			return ret;
 		}
 
+		class_index_new = zs_lookup_class_index(zram->mem_pool,
+							comp_len_new);
+
 		/* Continue until we make progress */
 		if (comp_len_new >= huge_class_size ||
 		    comp_len_new >= comp_len_old ||
+		    class_index_new >= class_index_old ||
 		    (threshold && comp_len_new >= threshold)) {
 			zcomp_stream_put(zram->comps[prio]);
 			continue;
@@ -1755,7 +1762,9 @@ static int zram_recompress(struct zram *zram, u32 index, struct page *page,
 	 * that would save memory, mark the object as incompressible so that
 	 * we will not try to compress it again.
 	 */
-	if (comp_len_new >= huge_class_size || comp_len_new >= comp_len_old) {
+	if (comp_len_new >= huge_class_size ||
+	    comp_len_new >= comp_len_old ||
+	    class_index_new >= class_index_old) {
 		zram_set_flag(zram, index, ZRAM_INCOMPRESSIBLE);
 		return 0;
 	}
