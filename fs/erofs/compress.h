@@ -95,6 +95,10 @@ extern const struct z_erofs_decompressor erofs_decompressors[];
 /* prototypes for specific algorithms */
 int z_erofs_load_lzma_config(struct super_block *sb,
 			struct erofs_super_block *dsb, void *data, int size);
+int z_erofs_load_zstd_config(struct super_block *sb,
+			struct erofs_super_block *dsb, void *data, int size);
 int z_erofs_lzma_decompress(struct z_erofs_decompress_req *rq,
 			    struct page **pagepool);
+int z_erofs_zstd_decompress(struct z_erofs_decompress_req *rq,
+			    struct page **pgpl);
 #endif
