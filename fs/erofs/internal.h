@@ -570,6 +570,14 @@ static inline int z_erofs_lzma_init(void) { return 0; }
 static inline int z_erofs_lzma_exit(void) { return 0; }
 #endif	/* !CONFIG_EROFS_FS_ZIP */
 
+#ifdef CONFIG_EROFS_FS_ZIP_ZSTD
+int __init z_erofs_zstd_init(void);
+void z_erofs_zstd_exit(void);
+#else
+static inline int z_erofs_zstd_init(void) { return 0; }
+static inline void z_erofs_zstd_exit(void) { return 0; }
+#endif	/* !CONFIG_EROFS_FS_ZIP_ZSTD */
+
 /* flags for erofs_fscache_register_cookie() */
 #define EROFS_REG_COOKIE_NEED_INODE	1
 #define EROFS_REG_COOKIE_NEED_NOEXIST	2
