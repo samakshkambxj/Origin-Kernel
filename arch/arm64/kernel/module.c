@@ -573,8 +573,12 @@ int module_finalize(const Elf_Ehdr *hdr,
 
 	if (scs_is_dynamic()) {
 		s = find_section(hdr, sechdrs, ".init.eh_frame");
-		if (s)
-			scs_patch((void *)s->sh_addr, s->sh_size);
+		if (s) {
+			err = scs_patch((void *)s->sh_addr, s->sh_size);
+			if (err)
+				pr_err("module %s: error occurred during dynamic SCS patching (%d)\n",
+				       me->name, err);
+		}
 	}
 
 	err = module_init_ftrace_plt(hdr, sechdrs, me);
