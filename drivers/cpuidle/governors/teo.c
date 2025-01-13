@@ -202,8 +202,6 @@ static void teo_update(struct cpuidle_driver *drv, struct cpuidle_device *dev)
 		}
 	}
 
-	cpu_data->total = 0;
-
 	/*
 	 * Decay the "hits" and "intercepts" metrics for all of the bins and
 	 * find the bins that the sleep length and the measured idle duration
@@ -214,8 +212,6 @@ static void teo_update(struct cpuidle_driver *drv, struct cpuidle_device *dev)
 
 		bin->hits -= bin->hits >> DECAY_SHIFT;
 		bin->intercepts -= bin->intercepts >> DECAY_SHIFT;
-
-		cpu_data->total += bin->hits + bin->intercepts;
 
 		target_residency_ns = drv->states[i].target_residency_ns;
 
@@ -241,6 +237,7 @@ static void teo_update(struct cpuidle_driver *drv, struct cpuidle_device *dev)
 			cpu_data->tick_intercepts += PULSE;
 	}
 
+	cpu_data->total -= cpu_data->total >> DECAY_SHIFT;
 	cpu_data->total += PULSE;
 }
 
