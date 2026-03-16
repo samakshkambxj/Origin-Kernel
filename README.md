@@ -5,6 +5,9 @@
   - Kernel modules path
      - vendor/mediatek/kernel_modules/
 
+2. OS 4.0 (Galaga-B4.0-260226-1122)
+  - No update
+
 
 # How do I submit patches to Android Common Kernels
 
