@@ -8,6 +8,9 @@
 2. OS 4.0 (Galaga-B4.0-260226-1122)
   - No update
 
+3. OS 4.1 (Galaga-B4.1-260415-1710)
+  - Update GKI boot (android14-6.1-2025-09_r6)
+
 
 # How do I submit patches to Android Common Kernels
 
