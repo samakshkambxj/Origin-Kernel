@@ -204,7 +204,7 @@ static bool damon_reclaim_enabled(void)
 {
 	if (!ctx)
 		return false;
-	return damon_is_running(ctx);
+	return ctx->kdamond != NULL;
 }
 
 static struct delayed_work damon_reclaim_timer;
@@ -218,8 +218,6 @@ static void damon_reclaim_timer_fn(struct work_struct *work)
 	damon_reclaim_turn(now_enabled);
 }
 static DECLARE_DELAYED_WORK(damon_reclaim_timer, damon_reclaim_timer_fn);
-
-static bool damon_reclaim_initialized;
 
 static int damon_reclaim_enabled_store(const char *val,
 		const struct kernel_param *kp)
