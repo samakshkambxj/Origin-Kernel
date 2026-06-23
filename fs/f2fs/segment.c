@@ -442,7 +442,6 @@ void f2fs_balance_fs(struct f2fs_sb_info *sbi, bool need)
 	 * foreground GC to avoid potential deadlocks.
 	 */
 	f2fs_submit_merged_write(sbi, DATA);
-	f2fs_submit_all_merged_ipu_writes(sbi);
 
 	if (test_opt(sbi, GC_MERGE) && sbi->gc_thread &&
 				sbi->gc_thread->f2fs_gc_task) {
