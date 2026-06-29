@@ -8,6 +8,9 @@
 2. OS 4.0 (Galaxian-B4.0-260303-1710)
   - No update
 
+3. OS 4.1 (Galaxian-B4.1-260508-1508)
+  - Update GKI boot (android14-6.1-2025-09_r6)
+
 
 # How do I submit patches to Android Common Kernels
 
