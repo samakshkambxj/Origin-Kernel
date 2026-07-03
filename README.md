@@ -36,8 +36,8 @@
 > - ⌛ [**Nethunter**](https://www.kali.org/docs/nethunter/): Open-source Android penetration testing platform for Android devices.
 > - ⌛ ZRAM LZ4 compression
 > ### Networking Improvements:
-> - ⌛ BBRv1 - Improved TCP congestion control
-> - ⌛ BBRv3 - Improved TCP congestion control
+> - ✅ Enabled BBRv1 - Improved TCP congestion control
+> - ✅ [DEFAULT] BBRv3 - Improved TCP congestion control
 > - ⌛ IP Set & IPv6 NAT Support - Advanced firewall capabilities
 > - ⌛ TTL Target Support - Network packet manipulation
 > ### Other Features
