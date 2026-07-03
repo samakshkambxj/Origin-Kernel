@@ -39,8 +39,8 @@
 > - ⌛ IP Set & IPv6 NAT Support - Advanced firewall capabilities
 > - ⌛ TTL Target Support - Network packet manipulation
 > ### Other Features
-> - ⌛ TMPFS_XATTR - Extended attributes for tmpfs (Mountify support)
-> - ⌛ TMPFS_POSIX_ACL - POSIX ACLs for tmpfs
+> - ✅ TMPFS_XATTR - Extended attributes for tmpfs (Mountify support)
+> - ✅ TMPFS_POSIX_ACL - POSIX ACLs for tmpfs
 > - ⌛ MemKernel - An Android kernel driver for reading/writing physical memory.
 
 ----
