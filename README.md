@@ -34,11 +34,11 @@
 > - ✅ [**Baseband-Guard**](https://github.com/vc-teahouse/Baseband-guard): A lightweight LSM (Linux Security Module) for the Android kernel, designed to block unauthorized writes to critical partitions/device nodes at the system level.
 > - ✅ LTO optimized — Thin LTO enabled for performance
 > - ⌛ [**Nethunter**](https://www.kali.org/docs/nethunter/): Open-source Android penetration testing platform for Android devices.
-> - ⌛ ZRAM LZ4 compression
+> - ⌛ [WIP] ZRAM LZ4 compression
 > ### Networking Improvements:
 > - ✅ Enabled BBRv1 - Improved TCP congestion control
 > - ✅ [DEFAULT] BBRv3 - Improved TCP congestion control
-> - ⌛ IP Set & IPv6 NAT Support - Advanced firewall capabilities
+> - ⌛ [WIP] IP Set & IPv6 NAT Support - Advanced firewall capabilities
 > - ⌛ TTL Target Support - Network packet manipulation
 > ### Other Features
 > - ✅ TMPFS_XATTR - Extended attributes for tmpfs (Mountify support)
