@@ -44,7 +44,7 @@
 > ### Other Features
 > - ✅ **TMPFS_XATTR** - Extended attributes for tmpfs (Mountify support)
 > - ✅ **TMPFS_POSIX_ACL** - POSIX ACLs for tmpfs
-> - ⌛ [**MemKernel**](https://github.com/Poko-Apps/MemKernel) - An Android kernel driver for reading/writing physical memory.\
+> - ⌛ [WIP] [**MemKernel**](https://github.com/Poko-Apps/MemKernel) - An Android kernel driver for reading/writing physical memory.\
 > - ⌛ [WIP] **Multi manager support**, for default [Official KernelSU](https://github.com/tiann/KernelSU)/[RKSU](https://github.com/rsuntk/KernelSU)/[MKSU](https://github.com/5ec1cff/KernelSU)/[SukiSU](https://github.com/SukiSU-Ultra/SukiSU-Ultra)/[Wild KSU](https://github.com/WildKernels/Wild_KSU)/[KowSU](https://github.com/deepongi-labs/KernelSU-KoWSU) is supported work as manager with this kernel 
 
 ----
