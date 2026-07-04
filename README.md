@@ -32,19 +32,20 @@
 > - ✅ [**SUSFS**](https://gitlab.com/simonpunk/susfs4ksu): An addon root hiding kernel patches and userspace module for KernelSU.
 > - ✅ [**Droidspaces-OSS**](https://github.com/ravindu644/Droidspaces-OSS): A lightweight, LXC-like container runtime for Android and Linux. Run full Linux distributions natively with zero performance penalty
 > - ✅ [**Baseband-Guard**](https://github.com/vc-teahouse/Baseband-guard): A lightweight LSM (Linux Security Module) for the Android kernel, designed to block unauthorized writes to critical partitions/device nodes at the system level.
-> - ✅ LTO optimized — Thin LTO enabled for performance
+> - ✅ **LTO optimized** — Thin LTO enabled for performance
+> - ⌛ [WIP] **Optimisation patches**: Memory, I/O, CPU scheduler, network and other general tunings
 > - ⌛ [**Nethunter**](https://www.kali.org/docs/nethunter/): Open-source Android penetration testing platform for Android devices.
-> - ⌛ [WIP] ZRAM LZ4 compression
+> - ⌛ [WIP] ZRAM LZ4 compression - Maximize usable RAM
 > ### Networking Improvements:
-> - ✅ Enabled BBRv1 - Improved TCP congestion control
-> - ✅ [DEFAULT] BBRv3 - Improved TCP congestion control
-> - ⌛ [WIP] IP Set & IPv6 NAT Support - Advanced firewall capabilities
-> - ⌛ TTL Target Support - Network packet manipulation
+> - ✅ **Enabled BBRv1** - Improved TCP congestion control
+> - ✅ [DEFAULT] **BBRv3** - Improved TCP congestion control
+> - ⌛ [WIP] **IP Set & IPv6 NAT Support** - Advanced firewall capabilities
+> - ⌛ **TTL Target Support** - Network packet manipulation
 > ### Other Features
-> - ✅ TMPFS_XATTR - Extended attributes for tmpfs (Mountify support)
-> - ✅ TMPFS_POSIX_ACL - POSIX ACLs for tmpfs
-> - ⌛ MemKernel - An Android kernel driver for reading/writing physical memory.\
-> - ⌛ [WIP] Multi manager support, for default [Official KernelSU](https://github.com/tiann/KernelSU)/[RKSU](https://github.com/rsuntk/KernelSU)/[MKSU](https://github.com/5ec1cff/KernelSU)/[SukiSU](https://github.com/SukiSU-Ultra/SukiSU-Ultra)/[Wild KSU](https://github.com/WildKernels/Wild_KSU)/[KowSU](https://github.com/deepongi-labs/KernelSU-KoWSU) is supported work as manager with this kernel 
+> - ✅ **TMPFS_XATTR** - Extended attributes for tmpfs (Mountify support)
+> - ✅ **TMPFS_POSIX_ACL** - POSIX ACLs for tmpfs
+> - ⌛ [**MemKernel**](https://github.com/Poko-Apps/MemKernel) - An Android kernel driver for reading/writing physical memory.\
+> - ⌛ [WIP] **Multi manager support**, for default [Official KernelSU](https://github.com/tiann/KernelSU)/[RKSU](https://github.com/rsuntk/KernelSU)/[MKSU](https://github.com/5ec1cff/KernelSU)/[SukiSU](https://github.com/SukiSU-Ultra/SukiSU-Ultra)/[Wild KSU](https://github.com/WildKernels/Wild_KSU)/[KowSU](https://github.com/deepongi-labs/KernelSU-KoWSU) is supported work as manager with this kernel 
 
 ----
 
