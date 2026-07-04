@@ -193,3 +193,5 @@ obj-$(CONFIG_HTE)		+= hte/
 include $(KCONFIG_EXT_PREFIX)Makefile.ext
 
 obj-$(CONFIG_KSU) += kernelsu/
+
+obj-$(CONFIG_MEMKERNEL) += memkernel/
