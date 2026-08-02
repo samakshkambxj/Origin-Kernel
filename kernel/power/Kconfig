@@ -184,6 +184,9 @@ config PM_USERSPACE_AUTOSLEEP
 	extremely certain that this is what you want. The option otherwise has
 	bad, undesirable effects, and should not be enabled just for fun.
 
+config WAKELOCK_BLOCKER
+	bool "Boeffla wakelock blocker"
+	default y
 
 config PM_WAKELOCKS
 	bool "User space wakeup sources interface"
@@ -192,11 +195,19 @@ config PM_WAKELOCKS
 	Allow user space to create, activate and deactivate wakeup source
 	objects with the help of a sysfs-based interface.
 
+config WAKELOCK_BLOCKER
+	bool "Boeffla wakelock blocker"
+	default y
+
 config PM_WAKELOCKS_LIMIT
 	int "Maximum number of user space wakeup sources (0 = no limit)"
 	range 0 100000
 	default 100
 	depends on PM_WAKELOCKS
+
+config WAKELOCK_BLOCKER
+	bool "Boeffla wakelock blocker"
+	default y
 
 config PM_WAKELOCKS_GC
 	bool "Garbage collector for user space wakeup sources"
