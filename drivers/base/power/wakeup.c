@@ -15,6 +15,11 @@
 #include <linux/seq_file.h>
 #include <linux/debugfs.h>
 #include <linux/pm_wakeirq.h>
+
+#ifdef CONFIG_WAKELOCK_BLOCKER
+extern bool is_wakelock_blocked(const char *name);
+#endif
+
 #include <linux/irq.h>
 #include <linux/irqdesc.h>
 #include <linux/wakeup_reason.h>
@@ -608,6 +613,11 @@ void __pm_stay_awake(struct wakeup_source *ws)
 	if (!ws)
 		return;
 
+#ifdef CONFIG_WAKELOCK_BLOCKER
+	if (is_wakelock_blocked(ws->name))
+		return;
+#endif
+
 	spin_lock_irqsave(&ws->lock, flags);
 
 	wakeup_source_report_event(ws, false);
@@ -795,6 +805,11 @@ void pm_wakeup_ws_event(struct wakeup_source *ws, unsigned int msec, bool hard)
 
 	if (!ws)
 		return;
+
+#ifdef CONFIG_WAKELOCK_BLOCKER
+	if (is_wakelock_blocked(ws->name))
+		return;
+#endif
 
 	spin_lock_irqsave(&ws->lock, flags);
 
