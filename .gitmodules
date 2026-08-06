@@ -1,0 +1,15 @@
+[submodule "KernelSU-Next"]
+	path = KernelSU-Next
+	url = https://github.com/pershoot/KernelSU-Next
+	branch = main
+[submodule "Baseband-guard"]
+	path = Baseband-guard
+	url = https://github.com/vc-teahouse/Baseband-guard
+	branch = main
+[submodule "susfs4ksu"]
+	path = susfs4ksu
+	url = https://gitlab.com/pershoot/susfs4ksu
+	branch = gki-android14-6.1-dev
+[submodule "MemKernel"]
+	path = MemKernel
+	url = https://github.com/Poko-Apps/MemKernel
