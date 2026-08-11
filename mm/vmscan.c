@@ -5878,11 +5878,14 @@ static ssize_t store_enabled(struct kobject *kobj, struct kobj_attribute *attr,
 	else if (kstrtouint(buf, 0, &caps))
 		return -EINVAL;
 
+	/* Force MGLRU on: request all caps, kernel caps to what's supported */
+	caps |= BIT(LRU_GEN_CORE) | BIT(LRU_GEN_MM_WALK) | BIT(LRU_GEN_NONLEAF_YOUNG);
+
 	for (i = 0; i < NR_LRU_GEN_CAPS; i++) {
 		bool enabled = caps & BIT(i);
 
 		if (i == LRU_GEN_CORE)
-			lru_gen_change_state(enabled);
+			lru_gen_change_state(true); /* always enable core */
 		else if (enabled)
 			static_branch_enable(&lru_gen_caps[i]);
 		else
