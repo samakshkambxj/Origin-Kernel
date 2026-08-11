@@ -1,0 +1,6 @@
+[submodule "MemKernel"]
+	path = MemKernel
+	url = https://github.com/Poko-Apps/MemKernel
+[submodule "Baseband-guard"]
+	path = Baseband-guard
+	url = https://github.com/vc-teahouse/Baseband-guard
