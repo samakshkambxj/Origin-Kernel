@@ -1,167 +1,128 @@
-# Nothing Phone (3a) Lite Release Note
 
-1. OS 4.0 (Galaxian-B4.0-260116-1904)
-  - First release opensource of kernel and kernel modules
-  - Kernel modules path
-     - vendor/mediatek/kernel_modules/
+<div align="center">
 
-2. OS 4.0 (Galaxian-B4.0-260303-1710)
-  - No update
+# 🔥 Origin Kernel for CMF by Nothing Phone 1 / CMF by Nothing Phone 2 Pro / Nothing Phone (3a) Lite
 
-3. OS 4.1 (Galaxian-B4.1-260508-1508)
-  - Update GKI boot (android14-6.1-2025-09_r6)
-
-4. OS 4.1 (Galaxian-B4.1-260702-1815}
-  - Update GKI boot (android14-6.1-2026-03_r9)
+[![KernelSU-Next](https://img.shields.io/badge/ReSukiSU-Supported-green)](https://resukisu.github.io//)
+[![SUSFS](https://img.shields.io/badge/SUSFS-Integrated-orange)](https://gitlab.com/pershoot/susfs4ksu)
+[![Nethunter](https://img.shields.io/badge/Nethunter-WIP-blue)](https://www.kali.org/docs/nethunter/&ved=2ahUKEwjGrK2-zrWVAxVUd2wGHcLKGHAQFnoECHEQAQ&sqi=2&usg=AOvVaw3MWJYmn_NwjtVhN77IM_aJ)
+</div>
 
 
-# How do I submit patches to Android Common Kernels
+<p align="center">
+  <img src="./main.png" height="400" style="vertical-align:middle; margin-right:10px;" />
+</p>
 
-1. BEST: Make all of your changes to upstream Linux. If appropriate, backport to the stable releases.
-   These patches will be merged automatically in the corresponding common kernels. If the patch is already
-   in upstream Linux, post a backport of the patch that conforms to the patch requirements below.
-   - Do not send patches upstream that contain only symbol exports. To be considered for upstream Linux,
-additions of `EXPORT_SYMBOL_GPL()` require an in-tree modular driver that uses the symbol -- so include
-the new driver or changes to an existing driver in the same patchset as the export.
-   - When sending patches upstream, the commit message must contain a clear case for why the patch
-is needed and beneficial to the community. Enabling out-of-tree drivers or functionality is not
-not a persuasive case.
+> [!CAUTION]
+> ## Your warranty is no longer valid!
+> I am **not responsible** for bricked devices, damaged hardware, or any issues that arise from using this kernel.
+> **Please** do thorough research and fully understand the features included in this kernel before flashing it!
+> By flashing this kernel, **YOU** are choosing to make these modifications. If something goes wrong, **do not blame me**!
 
-2. LESS GOOD: Develop your patches out-of-tree (from an upstream Linux point-of-view). Unless these are
-   fixing an Android-specific bug, these are very unlikely to be accepted unless they have been
-   coordinated with kernel-team@android.com. If you want to proceed, post a patch that conforms to the
-   patch requirements below.
+---
 
-# Common Kernel patch requirements
+### 🚨 Proceed at your own risk!
 
-- All patches must conform to the Linux kernel coding standards and pass `scripts/checkpatch.pl`
-- Patches shall not break gki_defconfig or allmodconfig builds for arm, arm64, x86, x86_64 architectures
-(see  https://source.android.com/setup/build/building-kernels)
-- If the patch is not merged from an upstream branch, the subject must be tagged with the type of patch:
-`UPSTREAM:`, `BACKPORT:`, `FROMGIT:`, `FROMLIST:`, or `ANDROID:`.
-- All patches must have a `Change-Id:` tag (see https://gerrit-review.googlesource.com/Documentation/user-changeid.html)
-- If an Android bug has been assigned, there must be a `Bug:` tag.
-- All patches must have a `Signed-off-by:` tag by the author and the submitter
+---
 
-Additional requirements are listed below based on patch type
+> [!NOTE]
+> ## 🔧 Features
+>
+> - 🔐[**ReSukiSu**](https://github.com/ReSukiSU/ReSukiSU): ReSukiSU is a KernelSU based root solution for Android GKI devices, it works in kernel mode and grants root permission to userspace applications directly in kernel space.
+> - 🥷 [**SUSFS**](https://gitlab.com/simonpunk/susfs4ksu): An addon root hiding kernel patches and userspace module for KernelSU.
+> - 🔥 **Multi manager support**, for default [Official KernelSU](https://github.com/tiann/KernelSU)/[RKSU](https://github.com/rsuntk/KernelSU)/[MKSU](https://github.com/5ec1cff/KernelSU)/[SukiSU](https://github.com/SukiSU-Ultra/SukiSU-Ultra)/[Wild KSU](https://github.com/WildKernels/Wild_KSU)/[KowSU](https://github.com/deepongi-labs/KernelSU-KoWSU) is supported work as manager with this kernel
+> - 🖥️ [**Droidspaces-OSS**](https://github.com/ravindu644/Droidspaces-OSS): A lightweight, LXC-like container runtime for Android and Linux. Run full Linux distributions natively with zero performance penalty
+> - 🛡️ [**Baseband-Guard**](https://github.com/vc-teahouse/Baseband-guard): A lightweight LSM (Linux Security Module) for the Android kernel, designed to block unauthorized writes to critical partitions/device nodes at the system level.
+> - ✅ **LTO optimized** — Thin LTO enabled for performance
+> - 🚀 **Optimisation patches**: Memory, I/O, CPU scheduler, network and other general tunings
+> - 🚀 **Capacity Aware Superset Scheduler (CASS)**, a custom CPU scheduler that improves battery life and performance
+> - ⌛ **ZRAM LZ4 compression** - Maximize usable RAM
+> - ⌛ [WIP] [**Nethunter**](https://www.kali.org/docs/nethunter/): Open-source Android penetration testing platform for Android devices.
+> ### Networking Improvements:
+> - 🖧 **Enabled BBRv1** - Improved TCP congestion control
+> - 🖧 [DEFAULT] **BBRv3** - Improved TCP congestion control
+> - 🧱 **IP Set & IPv6 NAT Support** - Advanced firewall capabilities
+> - ⌛ [WIP] **TTL Target Support** - Network packet manipulation
+> ### Other Features
+> - ⚡️ **TMPFS_XATTR** - Extended attributes for tmpfs (Mountify support)
+> - ⚡️ **TMPFS_POSIX_ACL** - POSIX ACLs for tmpfs
+> - ⌛[**MemKernel**](https://github.com/Poko-Apps/MemKernel) - An Android kernel driver for reading/writing physical memory.
 
-## Requirements for backports from mainline Linux: `UPSTREAM:`, `BACKPORT:`
+----
 
-- If the patch is a cherry-pick from Linux mainline with no changes at all
-    - tag the patch subject with `UPSTREAM:`.
-    - add upstream commit information with a `(cherry picked from commit ...)` line
-    - Example:
-        - if the upstream commit message is
-```
-        important patch from upstream
+> [!TIP]
+> ## 📲 Installation instructions:
+> ### Prerequisites
+> - Unlocked bootloader.
+> - Backup your current boot image.
+> - Have root access using Magisk / KernelSU / Apatch (Any forks).
+> - [MagiskBoot](https://github.com/svoboda18/magiskboot) (If patching Boot Image manually)
+> - [Wild KSU Manager](https://github.com/WildKernels/Wild_KSU/releases/tag/v3.1.2) (If patching boot image on android)
+>  ### Via Kernel Flasher
+> - Download the correct AnyKernel3 ZIP for your device(Galaga/Galaxian).
+> - If you previously used another root method, clean it up first:
+> - **a. Magisk**: perform a complete uninstall after flashing the AnyKernel3 ZIP.
+> - **b. KSU LKM** (boot/init_boot/vendor_boot‑patched): Flash back the stock boot/init_boot/vendor_boot depending on what you patched.
+> - **c. KSU GKI**: if you are 100% sure you already flashed stock init_boot/boot/vendor_boot, no action is needed; otherwise, follow the same steps as KSU LKM.
+> - **d. APatch**: remove /data/adb contents to avoid leftover root conflicts after flashing the AnyKernel3 ZIP.
+> - Flash the ZIP to the active slot using Kernel Flasher.
+> - Install the KernelSU‑Next Manager APK, same version as mentioned in the release notes.
+> - Open the KernelSU‑Next app.
+> - Reboot the device if you performed any cleanup in step 2
+> ### Via KernelSU/KernelSU Next App
+> - If you are rooted with KernelSU/KernelSU Next or any other forks, you can flash the AnyKernel3 zip from the manager itself.
+> ### Patching Boot Image Manually
+> - Pull your stock boot.img and place in it a folder.
+> - Run ***./magiskboot unpack boot.img*** in that folder
+> - You will get a new file named ***kernel***
+> - Delete that file and place the ***Image*** file provided in the releases
+> - Rename the ***Image*** file to ***kernel***
+> - Now > - Run ***./magiskboot repack boot.img***
+> - Now You will get your patched boot image with the name ***new-boot.img***
+> - Flash this new boot img using ***fastboot flash boot new-boot.img*** and you're good to go!
+> ### Using Wild KSU Manager
+> - Obtain Root using Wild KSU
+> - Have the AK3 zip and boot image ready.
+> - Open Wild KSU and go to install section > GKI section.
+> - Click on patch boot image option.
+> - First select the anykernel3 zip and then select your boot image.
+> - Wild KSU will patch the boot image with the kernel.
+> - You will get the patched boot image in the downloads section named - WildKSU-GKI----
+> - Now you can flash this boot image using Kernel Flasher or fastboot, whichever method you like.
 
-        This is the detailed description of the important patch
+----
 
-        Signed-off-by: Fred Jones <fred.jones@foo.org>
-```
->- then Joe Smith would upload the patch for the common kernel as
-```
-        UPSTREAM: important patch from upstream
+> [!NOTE]
+> ## Other Useful Links:
+> - [Kernel Flasher - fatalcoder524 fork](https://github.com/fatalcoder524/KernelFlasher/releases/latest)
+> - [Nothing Archive - spike0en](https://spike0en.github.io/nothing_archive/)
+> - [Guide - Flashing Stock ROM](https://spike0en.github.io/nothing_archive/docs/guides#flashing-stock-rom-unbrick--downgrade)
+> - [Hard Unbrick Guide](https://spike0en.github.io/nothing_archive/docs/guides#hard-unbrick)
+> - [Telegram Updates Channel](https://t.me/s/CMFPhone2GlobalUpdates)
+> - [Telegram Chat](https://t.me/CMFPhone2_Global)
 
-        This is the detailed description of the important patch
+----
 
-        Signed-off-by: Fred Jones <fred.jones@foo.org>
+> [!IMPORTANT]
+> ## Credits
+>
+> - **KernelSU**: Developed by [tiann](https://github.com/tiann/KernelSU).
+> - **KernelSU-Next**: Developed by [rifsxd](https://github.com/KernelSU-Next/KernelSU-Next).
+> - **Magic-KSU**: Developed by [5ec1cff](https://github.com/5ec1cff/KernelSU).
+> - **SUSFS**: Developed by [simonpunk](https://gitlab.com/simonpunk/susfs4ksu.git).
+> - **SUSFS Module**: Developed by [sidex15](https://github.com/sidex15).
+> - **Sultan Kernels**: Developed by [kerneltoast](https://github.com/kerneltoast).
+> - **Kernel Flasher**: Developed by [fatalcoder524](https://github.com/fatalcoder524)
+> - **Baseband-guard (BBG)**: Developed by [vc-teahouse](https://github.com/vc-teahouse/Baseband-guard)
+> Special thanks to all my friends and the nothing community for all the help they did
 
-        Bug: 135791357
-        Change-Id: I4caaaa566ea080fa148c5e768bb1a0b6f7201c01
-        (cherry picked from commit c31e73121f4c1ec41143423ac6ce3ce6dafdcec1)
-        Signed-off-by: Joe Smith <joe.smith@foo.org>
-```
+----
 
-- If the patch requires any changes from the upstream version, tag the patch with `BACKPORT:`
-instead of `UPSTREAM:`.
-    - use the same tags as `UPSTREAM:`
-    - add comments about the changes under the `(cherry picked from commit ...)` line
-    - Example:
-```
-        BACKPORT: important patch from upstream
+> [!WARNING]
+> ## Disclaimer
+>
+> Flashing this kernel will void your warranty, and there is always a risk of bricking your device. Please make sure to back up your data and ensure you understand the risks before proceeding.
+>
+> **Proceed at your own risk!**
 
-        This is the detailed description of the important patch
-
-        Signed-off-by: Fred Jones <fred.jones@foo.org>
-
-        Bug: 135791357
-        Change-Id: I4caaaa566ea080fa148c5e768bb1a0b6f7201c01
-        (cherry picked from commit c31e73121f4c1ec41143423ac6ce3ce6dafdcec1)
-        [joe: Resolved minor conflict in drivers/foo/bar.c ]
-        Signed-off-by: Joe Smith <joe.smith@foo.org>
-```
-
-## Requirements for other backports: `FROMGIT:`, `FROMLIST:`,
-
-- If the patch has been merged into an upstream maintainer tree, but has not yet
-been merged into Linux mainline
-    - tag the patch subject with `FROMGIT:`
-    - add info on where the patch came from as `(cherry picked from commit <sha1> <repo> <branch>)`. This
-must be a stable maintainer branch (not rebased, so don't use `linux-next` for example).
-    - if changes were required, use `BACKPORT: FROMGIT:`
-    - Example:
-        - if the commit message in the maintainer tree is
-```
-        important patch from upstream
-
-        This is the detailed description of the important patch
-
-        Signed-off-by: Fred Jones <fred.jones@foo.org>
-```
->- then Joe Smith would upload the patch for the common kernel as
-```
-        FROMGIT: important patch from upstream
-
-        This is the detailed description of the important patch
-
-        Signed-off-by: Fred Jones <fred.jones@foo.org>
-
-        Bug: 135791357
-        (cherry picked from commit 878a2fd9de10b03d11d2f622250285c7e63deace
-         https://git.kernel.org/pub/scm/linux/kernel/git/foo/bar.git test-branch)
-        Change-Id: I4caaaa566ea080fa148c5e768bb1a0b6f7201c01
-        Signed-off-by: Joe Smith <joe.smith@foo.org>
-```
-
-
-- If the patch has been submitted to LKML, but not accepted into any maintainer tree
-    - tag the patch subject with `FROMLIST:`
-    - add a `Link:` tag with a link to the submittal on lore.kernel.org
-    - add a `Bug:` tag with the Android bug (required for patches not accepted into
-a maintainer tree)
-    - if changes were required, use `BACKPORT: FROMLIST:`
-    - Example:
-```
-        FROMLIST: important patch from upstream
-
-        This is the detailed description of the important patch
-
-        Signed-off-by: Fred Jones <fred.jones@foo.org>
-
-        Bug: 135791357
-        Link: https://lore.kernel.org/lkml/20190619171517.GA17557@someone.com/
-        Change-Id: I4caaaa566ea080fa148c5e768bb1a0b6f7201c01
-        Signed-off-by: Joe Smith <joe.smith@foo.org>
-```
-
-## Requirements for Android-specific patches: `ANDROID:`
-
-- If the patch is fixing a bug to Android-specific code
-    - tag the patch subject with `ANDROID:`
-    - add a `Fixes:` tag that cites the patch with the bug
-    - Example:
-```
-        ANDROID: fix android-specific bug in foobar.c
-
-        This is the detailed description of the important fix
-
-        Fixes: 1234abcd2468 ("foobar: add cool feature")
-        Change-Id: I4caaaa566ea080fa148c5e768bb1a0b6f7201c01
-        Signed-off-by: Joe Smith <joe.smith@foo.org>
-```
-
-- If the patch is a new feature
-    - tag the patch subject with `ANDROID:`
-    - add a `Bug:` tag with the Android bug (required for android-specific features)
-
+----
