@@ -8,3 +8,6 @@
 	path = susfs4ksu
 	url = https://gitlab.com/pershoot/susfs4ksu/
 	branch = gki-android14-6.1-dev
+[submodule "Baseband-guard"]
+	path = Baseband-guard
+	url = https://github.com/vc-teahouse/Baseband-guard.git
