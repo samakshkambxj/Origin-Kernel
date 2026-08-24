@@ -4,3 +4,12 @@
 [submodule "Baseband-guard"]
 	path = Baseband-guard
 	url = https://github.com/vc-teahouse/Baseband-guard
+
+[submodule "KernelSU"]
+	path = KernelSU
+	url = https://github.com/ReSukiSU/ReSukiSU
+	branch = dev
+[submodule "susfs4ksu"]
+	path = susfs4ksu
+	url = https://gitlab.com/pershoot/susfs4ksu/
+	branch = gki-android14-6.1-dev
