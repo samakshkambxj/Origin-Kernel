@@ -134,9 +134,6 @@ struct psi_trigger {
 	/* Wait queue for polling */
 	wait_queue_head_t event_wait;
 
-	/* Kernfs file for cgroup triggers */
-	struct kernfs_open_file *of;
-
 	/* Pending event flag */
 	int event;
 
@@ -151,6 +148,14 @@ struct psi_trigger {
 
 	/* Deferred event(s) from previous ratelimit window */
 	bool pending_event;
+};
+
+struct psi_trigger_ext {
+	struct psi_trigger trigger;
+
+	/* Kernfs file for cgroup triggers */
+	struct kernfs_open_file *of;
+
 };
 
 struct psi_group {
