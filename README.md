@@ -58,10 +58,10 @@ Use the matrix below to quickly check which features are available for each devi
 | KCAL / Advanced Display Control | ❌ | ❌ | ❌ |
 | KSM (Kernel Samepage Merging) | ❌ | ❌ | ❌ |
 | Advanced GPU frequency controls | ❌ | ❌ | ❌ |
-| TTL Target Support | <img src="https://img.shields.io/badge/WIP-FFD43B?style=for-the-badge&labelColor=555" alt="WIP"> | <img src="https://img.shields.io/badge/WIP-FFD43B?style=for-the-badge&labelColor=555" alt="WIP"> | <img src="https://img.shields.io/badge/WIP-FFD43B?style=for-the-badge&labelColor=555" alt="WIP"> |
+| TTL Target | <img src="https://img.shields.io/badge/WIP-FFD43B?style=for-the-badge&labelColor=555" alt="WIP"> | <img src="https://img.shields.io/badge/WIP-FFD43B?style=for-the-badge&labelColor=555" alt="WIP"> | <img src="https://img.shields.io/badge/WIP-FFD43B?style=for-the-badge&labelColor=555" alt="WIP"> |
 | TMPFS_XATTR | ✅ | ✅ | ✅ |
 | TMPFS_POSIX_ACL | ✅ | ✅ | ✅ |
-| MemKernel | ✅ | ✅ | ❌ |
+| MemKernel | ✅ | ✅ | ✅ |
 | NetHunter | <img src="https://img.shields.io/badge/WIP-FFD43B?style=for-the-badge&labelColor=555" alt="WIP"> | <img src="https://img.shields.io/badge/WIP-FFD43B?style=for-the-badge&labelColor=555" alt="WIP"> | <img src="https://img.shields.io/badge/WIP-FFD43B?style=for-the-badge&labelColor=555" alt="WIP"> |
 
 **Legend:**
@@ -114,7 +114,6 @@ The following features are **not currently available on any supported Origin Ker
 - ❌ **Boeffla Wakelock Blocker** — A kernel module designed to prevent specific system wakelocks from keeping Android devices awake, potentially improving battery life and reducing sleep latency.
 - ❌ **Multi-Gen LRU (MGLRU)** — Modern page-reclaim infrastructure designed to improve memory-management efficiency and responsiveness under memory pressure.
 - ❌ **KCAL / Advanced Display Control** — Additional kernel-level display calibration and color-control options.
-- ❌ **KernelSU integrated WireGuard** — Built-in WireGuard kernel support without relying on a separate userspace implementation.
 - ❌ **KSM (Kernel Samepage Merging)** — Memory deduplication support that can reduce duplicate memory pages when applicable.
 - ❌ **UKSM** — An alternative userspace-oriented memory deduplication implementation for reducing redundant anonymous pages.
 - ❌ **Simple Low Memory Killer (Simple LMK)** — Lightweight low-memory reclaim logic for handling memory pressure on Android devices.
@@ -146,6 +145,12 @@ For supported installation methods, see the [Installation](#-installation) secti
 - Existing root access through **Magisk / KernelSU / APatch (or a compatible fork)** where required by the selected method.
 - [MagiskBoot](https://github.com/svoboda18/magiskboot) for manual boot image patching.
 - [Wild KSU Manager](https://github.com/WildKernels/Wild_KSU/releases/tag/v3.1.2) when using the Wild KSU boot-image patching workflow.
+
+> [!IMPORTANT]
+> ### ⚠️ Fenrir users
+> If you are using **Fenrir**, flashing the **AnyKernel3 (AK3) ZIP** will not actually change the kernel because of a conflict with Fenrir. This does **not** mean that Origin Kernel is unsupported alongside Fenrir; the limitation applies specifically to the AnyKernel3 ZIP installation method.
+>
+> In this case, patch your `boot.img` with the Origin Kernel `Image` and flash the patched image using **fastboot**. See [Method 3 — Manual Boot Image Patching](#method-3--manual-boot-image-patching).
 
 ### Method 1 — Kernel Flasher
 
