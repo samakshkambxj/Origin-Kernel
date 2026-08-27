@@ -61,7 +61,7 @@ Use the matrix below to quickly check which features are available for each devi
 | TTL Target | <img src="https://img.shields.io/badge/WIP-FFD43B?style=for-the-badge&labelColor=555" alt="WIP"> | <img src="https://img.shields.io/badge/WIP-FFD43B?style=for-the-badge&labelColor=555" alt="WIP"> | <img src="https://img.shields.io/badge/WIP-FFD43B?style=for-the-badge&labelColor=555" alt="WIP"> |
 | TMPFS_XATTR | ✅ | ✅ | ✅ |
 | TMPFS_POSIX_ACL | ✅ | ✅ | ✅ |
-| MemKernel | ✅ | ✅ | ✅ |
+| MemKernel | ✅ | ✅ | ❌ |
 | NetHunter | <img src="https://img.shields.io/badge/WIP-FFD43B?style=for-the-badge&labelColor=555" alt="WIP"> | <img src="https://img.shields.io/badge/WIP-FFD43B?style=for-the-badge&labelColor=555" alt="WIP"> | <img src="https://img.shields.io/badge/WIP-FFD43B?style=for-the-badge&labelColor=555" alt="WIP"> |
 
 **Legend:**
@@ -100,12 +100,12 @@ Use the matrix below to quickly check which features are available for each devi
 - **BBRv1** — enabled TCP congestion control option.
 - **BBRv3 [DEFAULT]** — default TCP congestion control option.
 - **IPSet & IPv6 NAT support** — additional firewall and networking capabilities.
-- **TTL Target** <img src="https://img.shields.io/badge/WIP-FFD43B?style=flat-square&labelColor=555" alt="WIP" /> — network packet manipulation support.
+- **TTL Target support** 🚧 — network packet manipulation support.
 
 ### 🐧 Advanced / Experimental
 
 - [**Droidspaces-OSS**](https://github.com/ravindu644/Droidspaces-OSS) — lightweight, LXC-like container runtime for Android and Linux.
-- [**NetHunter**](https://www.kali.org/docs/nethunter/) <img src="https://img.shields.io/badge/WIP-FFD43B?style=flat-square&labelColor=555" alt="WIP" /> — Kali NetHunter support is currently a work in progress.
+- [**NetHunter**](https://www.kali.org/docs/nethunter/) 🚧 — Kali NetHunter support is currently a work in progress.
 
 ### 🧪 Planned / Currently Unavailable
 
@@ -212,9 +212,9 @@ If your device is already rooted with KernelSU, KernelSU-Next, or a compatible f
 
 | Codename | Root Method | Kernel Version | Kernel Build |
 |---|---|---|---|
-| **Tetris** | ReSukiSu | 6.1.162 | **v1** |
-| **Galaga** | ReSukiSu | 6.1.145 | **v2** |
-| **Galaxian** | ReSukiSu | 6.1.145 | **v2** |
+| **Tetris** | KernelSU-Next | 6.1.162 | **v1** |
+| **Galaga** | KernelSU-Next | 6.1.145 | **v2** |
+| **Galaxian** | KernelSU-Next | 6.1.145 | **v2** |
 
 ## 🔗 Useful Links
 
@@ -239,6 +239,12 @@ Origin Kernel builds upon the work of many developers and open-source projects:
 - **Baseband-Guard (BBG):** Developed by [vc-teahouse](https://github.com/vc-teahouse/Baseband-guard).
 
 Special thanks to all contributors, testers, friends, and the Nothing community for their help and feedback.
+
+## ⭐ Like My Work?
+
+If you found **Origin Kernel** useful or enjoyed my work, consider giving the repository a **star ⭐** on GitHub. It helps support the project and motivates me to keep improving it!
+
+**Thank you for your support! ❤️**
 
 ## ⚠️ Disclaimer
 
