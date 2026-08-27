@@ -9,12 +9,28 @@
 [![ReSukiSu](https://img.shields.io/badge/ReSukiSU-Supported-green)](https://resukisu.github.io/)
 [![SUSFS](https://img.shields.io/badge/SUSFS-Integrated-orange)](https://gitlab.com/pershoot/susfs4ksu)
 [![Nethunter](https://img.shields.io/badge/Nethunter-WIP-blue)](https://www.kali.org/docs/nethunter/)
+[![Linux 6.1](https://img.shields.io/badge/Kernel-Linux%206.1-blue)](#-kernel-information)
+[![MediaTek](https://img.shields.io/badge/Platform-MediaTek-purple)](#-supported-devices)
 
 </div>
 
 <p align="center">
   <img src="./main.png" height="400" alt="Origin Kernel" />
 </p>
+
+> ## 📚 Contents
+>
+> - [About Origin](#-about-origin)
+> - [Supported Devices](#-supported-devices)
+> - [Features](#-features)
+> - [Variants](#-variants)
+> - [Downloads](#-downloads)
+> - [Installation](#-installation)
+> - [Kernel Information](#-kernel-information)
+> > > - [Community & Support](#-community--support)
+> - [Credits](#-credits)
+> - [Like My Work?](#-like-my-work)
+> - [Disclaimer](#-disclaimer)
 
 > [!WARNING]
 > ### ⚠️ Flash at your own risk
@@ -23,6 +39,12 @@
 > **Always keep a working copy of your stock boot-related images before modifying your device.**
 >
 > The maintainer is **not responsible** for bricked devices, damaged hardware, data loss, or any other issues caused by using this kernel. By flashing Origin Kernel, **you accept responsibility for the modifications you make to your device**.
+
+## 🌌 About Origin
+
+Origin Kernel is built with a focus on balancing **performance, stability, battery life, and additional kernel functionality** for MediaTek-based Nothing devices.
+
+The project combines kernel features, upstream improvements, custom tuning, and selected third-party components into device-specific builds.
 
 ## 📱 Supported Devices
 
@@ -72,6 +94,13 @@ Use the matrix below to quickly check which features are available for each devi
 - — **Not documented** — device-specific availability has not been established here; check the corresponding release notes.
 
 > **Note:** The project uses **Tetris** for CMF Phone 1, **Galaga** for CMF Phone 2 Pro, and **Galaxian** for Nothing Phone (3a) Lite. Feature availability should still be checked against the release notes for the exact build.
+
+### 📖 Support Status
+
+**Supported** means the feature is included and documented for the device build.  
+**WIP** means the feature is present but still under development or testing.  
+**Unavailable** means the feature is not currently included in any supported build.  
+**Not documented** means device-specific support has not been established in the README; check the release notes.
 
 ## ✨ Features
 
@@ -123,6 +152,18 @@ The following features are **not currently available on any supported Origin Ker
 > Features marked **WIP** are incomplete and may not be ready for daily use.
 >
 > Features marked **Currently Unavailable** are **not included in any current device build** and should not be expected to work until explicitly added and documented in a future release.
+
+## 🧩 Variants
+
+Origin Kernel is available in different variants depending on the intended use case:
+
+| Variant | Description |
+|---|---|
+| **Origin-ReSukiSU** | A ReSukiSU-integrated build with a ready-to-use kernel root implementation for supported devices. |
+| **Origin-KSUN** | A KernelSU-Next based build focused on providing the KernelSU-Next root experience on supported devices. |
+| **Origin-Vanilla** | For implementation in custom ROM builds, without a pre-integrated root solution. |
+
+> **Note:** Variant availability may differ between devices and releases. Always check the corresponding release notes before flashing.
 
 ## 📦 Downloads
 
@@ -222,8 +263,19 @@ If your device is already rooted with KernelSU, KernelSU-Next, or a compatible f
 - [Nothing Archive — spike0en](https://spike0en.github.io/nothing_archive/)
 - [Flashing Stock ROM / Unbrick / Downgrade Guide](https://spike0en.github.io/nothing_archive/docs/guides#flashing-stock-rom-unbrick--downgrade)
 - [Hard Unbrick Guide](https://spike0en.github.io/nothing_archive/docs/guides#hard-unbrick)
-- [Telegram Updates Channel](https://t.me/s/CMFPhone2GlobalUpdates)
-- [Telegram Chat](https://t.me/CMFPhone2_Global)
+## 🔌 Component Compatibility
+
+Origin Kernel integrates or builds upon several third-party kernel projects. Individual components may have their own compatibility, licensing, and update requirements.
+
+Refer to the original project documentation for component-specific information. Feature availability should always be checked against the device matrix and release notes.
+
+## 💬 Community & Support
+
+For updates, discussions, troubleshooting, and community support:
+
+- [Telegram Updates Channel](https://t.me/itsonlyachannel)
+- [Telegram Support Chat](https://t.me/itisnotwhatyouthinkitis)
+- [GitHub Issues](https://github.com/samakshkambxj/origin-kernel/issues)
 
 ## 🙏 Credits
 
