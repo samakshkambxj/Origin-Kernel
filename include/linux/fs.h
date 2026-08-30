@@ -982,7 +982,7 @@ struct file {
 
 	ANDROID_KABI_RESERVE(1);
 	ANDROID_KABI_RESERVE(2);
-} __randomize_layout
+} __randomize_layout __aligned(8)
   __attribute__((aligned(8)));
 
 struct file_handle {
