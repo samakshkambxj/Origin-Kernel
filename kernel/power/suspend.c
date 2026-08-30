@@ -136,16 +136,19 @@ static void s2idle_loop(void)
 	 * been suspended.
 	 *
 	 * Wakeups during the noirq suspend of devices may be spurious, so try
-	 * to avoid them upfront.
+	 * to avoid them upfront.  Retrying here would only burn power when a
+	 * wakeup keeps arriving, so a single wake check is enough.
 	 */
-	for (;;) {
-		if (s2idle_ops && s2idle_ops->wake) {
-			if (s2idle_ops->wake())
-				break;
-		} else if (pm_wakeup_pending()) {
-			break;
-		}
+	if (s2idle_ops && s2idle_ops->wake) {
+		if (!s2idle_ops->wake()) {
+			clear_wakeup_reasons();
 
+			if (s2idle_ops->check)
+				s2idle_ops->check();
+
+			s2idle_enter();
+		}
+	} else if (!pm_wakeup_pending()) {
 		clear_wakeup_reasons();
 
 		if (s2idle_ops && s2idle_ops->check)
