@@ -813,6 +813,10 @@ void pm_wakeup_ws_event(struct wakeup_source *ws, unsigned int msec, bool hard)
 		return;
 #endif
 
+/* Cap wakeup events to 500ms to prevent infinite battery drain */
+        if (msec > 500)
+                msec = 500;
+
 	spin_lock_irqsave(&ws->lock, flags);
 
 	wakeup_source_report_event(ws, hard);
