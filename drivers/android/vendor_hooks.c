@@ -556,8 +556,6 @@ EXPORT_TRACEPOINT_SYMBOL_GPL(android_vh_swap_writepage_end);
 EXPORT_TRACEPOINT_SYMBOL_GPL(android_vh_task_mem);
 EXPORT_TRACEPOINT_SYMBOL_GPL(android_vh_mm_free);
 EXPORT_TRACEPOINT_SYMBOL_GPL(android_vh_mm_init);
-EXPORT_TRACEPOINT_SYMBOL_GPL(android_vh_direct_reclaim_begin);
-EXPORT_TRACEPOINT_SYMBOL_GPL(android_vh_direct_reclaim_end);
 EXPORT_TRACEPOINT_SYMBOL_GPL(android_vh_alloc_pages_start);
 EXPORT_TRACEPOINT_SYMBOL_GPL(android_vh_alloc_pages_end);
 EXPORT_TRACEPOINT_SYMBOL_GPL(android_vh_alloc_pages_slowpath_start);
