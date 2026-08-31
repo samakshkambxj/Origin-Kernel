@@ -2356,7 +2356,16 @@ static int f2fs_enable_checkpoint(struct f2fs_sb_info *sbi)
 	f2fs_down_write_trace(&sbi->gc_lock, &lc);
 	f2fs_dirty_to_prefree(sbi);
 
+	clear_sbi_flag(sbi, SBI_CP_DISABLED);
+	set_sbi_flag(sbi, SBI_IS_DIRTY);
 	f2fs_up_write_trace(&sbi->gc_lock, &lc);
+
+	ret = f2fs_sync_fs(sbi->sb, 1);
+	if (ret)
+		f2fs_err(sbi, "%s sync_fs failed, ret: %d", __func__, ret);
+
+	/* Let's ensure there's no pending checkpoint anymore */
+	f2fs_flush_ckpt_thread(sbi);
 
 	end = ktime_get();
 
@@ -2365,7 +2374,6 @@ static int f2fs_enable_checkpoint(struct f2fs_sb_info *sbi)
 			ktime_ms_delta(end, start),
 			ktime_ms_delta(writeback, start));
 
-	clear_sbi_flag(sbi, SBI_CP_DISABLED);
 
 	ret = f2fs_write_checkpoint(sbi, NULL);
 
