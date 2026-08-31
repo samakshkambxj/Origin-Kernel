@@ -743,6 +743,8 @@
   snd_soc_jack_report
   snd_soc_put_enum_double
   snd_soc_put_volsw
+  snd_soc_register_component
+  snd_soc_unregister_component
   snprintf
   sock_create_kern
   sock_release
@@ -1074,6 +1076,7 @@
   down_read
   down_write
   find_vma
+  mtree_load
   __mmap_lock_do_trace_acquire_returned
   __mmap_lock_do_trace_released
   __mmap_lock_do_trace_start_locking
