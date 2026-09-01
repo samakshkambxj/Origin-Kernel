@@ -444,9 +444,6 @@ DECLARE_HOOK(android_vh_alloc_pages_start,
 DECLARE_HOOK(android_vh_alloc_pages_end,
 	TP_PROTO(unsigned int order, gfp_t alloc_gfp, u64 stime),
 	TP_ARGS(order, alloc_gfp, stime));
-DECLARE_HOOK(android_vh_do_group_exit,
-	TP_PROTO(struct task_struct *tsk),
-	TP_ARGS(tsk));
 DECLARE_HOOK(android_vh_alloc_pages_slowpath_start,
 	TP_PROTO(u64 *stime),
 	TP_ARGS(stime));
