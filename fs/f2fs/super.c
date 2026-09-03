@@ -2669,14 +2669,6 @@ restore_opts:
 	return err;
 }
 
-static void f2fs_shutdown(struct super_block *sb)
-{
-	struct f2fs_sb_info *sbi = F2FS_SB(sb);
-
-	f2fs_stop_checkpoint(sbi, false, STOP_CP_REASON_SHUTDOWN);
-	set_sbi_flag(sbi, SBI_IS_SHUTDOWN);
-}
-
 #ifdef CONFIG_QUOTA
 static bool f2fs_need_recovery(struct f2fs_sb_info *sbi)
 {
@@ -3268,7 +3260,6 @@ static const struct super_operations f2fs_sops = {
 	.unfreeze_fs	= f2fs_unfreeze,
 	.statfs		= f2fs_statfs,
 	.remount_fs	= f2fs_remount,
-	.shutdown	= f2fs_shutdown,
 };
 
 #ifdef CONFIG_FS_ENCRYPTION
