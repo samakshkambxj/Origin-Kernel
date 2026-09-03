@@ -2369,9 +2369,14 @@ static int f2fs_enable_checkpoint(struct f2fs_sb_info *sbi)
 
 	end = ktime_get();
 
-	f2fs_info(sbi, "f2fs_enable_checkpoint() finishes, writeback:%llu, sync:%llu",
-					ktime_ms_delta(writeback, start),
-					ktime_ms_delta(end, writeback));
+	f2fs_info(sbi, "f2fs_enable_checkpoint() finish, elapsed time: %lld ms, "
+			"writeback time: %lld ms",
+			ktime_ms_delta(end, start),
+			ktime_ms_delta(writeback, start));
+
+
+	ret = f2fs_write_checkpoint(sbi, NULL);
+
 	return ret;
 }
 
