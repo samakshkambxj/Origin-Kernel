@@ -2377,7 +2377,6 @@ static int f2fs_enable_checkpoint(struct f2fs_sb_info *sbi)
 
 	ret = f2fs_write_checkpoint(sbi, NULL);
 
-out:
 	return ret;
 }
 
