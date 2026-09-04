@@ -1,0 +1,7 @@
+[submodule "susfs4ksu"]
+	path = susfs4ksu
+	url = https://gitlab.com/pershoot/susfs4ksu/
+	branch = gki-android14-6.1-dev
+[submodule "KernelSU"]
+	path = KernelSU
+	url = https://github.com/ReSukiSU/ReSukiSU.git
