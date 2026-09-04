@@ -146,6 +146,7 @@ struct teo_cpu {
 	unsigned int tick_intercepts;
 	unsigned int short_idles;
 	bool tick_wakeup;
+	unsigned long util_threshold;
 };
 
 static DEFINE_PER_CPU(struct teo_cpu, teo_cpus);
