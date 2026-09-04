@@ -1610,6 +1610,10 @@ static int fuse_notify_store(struct fuse_conn *fc, unsigned int size,
 	inode = fuse_ilookup(fc, nodeid,  NULL);
 	if (!inode)
 		goto out_up_killsb;
+	if (!S_ISREG(inode->i_mode)) {
+		err = -EINVAL;
+		goto out_iput;
+	}
 
 	mapping = inode->i_mapping;
 	index = outarg.offset >> PAGE_SHIFT;
@@ -1731,6 +1735,10 @@ static int fuse_retrieve(struct fuse_mount *fm, struct inode *inode,
 		page = find_get_page(mapping, index);
 		if (!page)
 			break;
+		if (!PageUptodate(page)) {
+			put_page(page);
+			break;
+		}
 
 		this_num = min_t(unsigned, num, PAGE_SIZE - offset);
 		ap->pages[ap->num_pages] = page;
@@ -1781,7 +1789,10 @@ static int fuse_notify_retrieve(struct fuse_conn *fc, unsigned int size,
 
 	inode = fuse_ilookup(fc, nodeid, &fm);
 	if (inode) {
-		err = fuse_retrieve(fm, inode, &outarg);
+		if (!S_ISREG(inode->i_mode))
+			err = -EINVAL;
+		else
+			err = fuse_retrieve(fm, inode, &outarg);
 		iput(inode);
 	}
 	up_read(&fc->killsb);
@@ -1946,9 +1957,14 @@ static ssize_t fuse_dev_do_write(struct fuse_dev *fud,
 	if (!err && req->in.h.opcode == FUSE_CANONICAL_PATH && !oh.error) {
 		char *path = (char *)req->args->out_args[0].value;
 
-		path[req->args->out_args[0].size - 1] = 0;
-		req->out.h.error =
-			kern_path(path, 0, req->args->canonical_path);
+		if (req->args->out_args[0].size == 0) {
+			req->out.h.error = -EBADMSG;
+		} else {
+			/* NUL-terminate inside the page; size<=PATH_MAX by construction */
+			path[min_t(unsigned int, req->args->out_args[0].size, PATH_MAX) - 1] = 0;
+			req->out.h.error =
+				kern_path(path, 0, req->args->canonical_path);
+		}
 	}
 
 	if (!err && (req->in.h.opcode == FUSE_LOOKUP ||
