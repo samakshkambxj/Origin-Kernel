@@ -1,167 +1,316 @@
-# Nothing Phone (3a) Lite Release Note
+<div align="center">
 
-1. OS 4.0 (Galaxian-B4.0-260116-1904)
-  - First release opensource of kernel and kernel modules
-  - Kernel modules path
-     - vendor/mediatek/kernel_modules/
+# 🔥 Origin Kernel
 
-2. OS 4.0 (Galaxian-B4.0-260303-1710)
-  - No update
+### Performance • Stability • Control
 
-3. OS 4.1 (Galaxian-B4.1-260508-1508)
-  - Update GKI boot (android14-6.1-2025-09_r6)
+**A feature-rich custom kernel for MediaTek-based Nothing devices.**
 
-4. OS 4.1 (Galaxian-B4.1-260702-1815}
-  - Update GKI boot (android14-6.1-2026-03_r9)
+[![ReSukiSu](https://img.shields.io/badge/ReSukiSU-Supported-green)](https://resukisu.github.io/)
+[![SUSFS](https://img.shields.io/badge/SUSFS-Integrated-orange)](https://gitlab.com/pershoot/susfs4ksu)
+[![Nethunter](https://img.shields.io/badge/Nethunter-WIP-blue)](https://www.kali.org/docs/nethunter/)
+[![Linux 6.1](https://img.shields.io/badge/Kernel-Linux%206.1-blue)](#-kernel-information)
+[![MediaTek](https://img.shields.io/badge/Platform-MediaTek-purple)](#-supported-devices)
+[![License](https://img.shields.io/badge/License-GPL%20v2-green)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+[![GitHub release](https://img.shields.io/github/v/release/samakshkambxj/origin-kernel)](https://github.com/samakshkambxj/origin-kernel/releases)
 
+</div>
 
-# How do I submit patches to Android Common Kernels
+<p align="center">
+  <img src="./main.png" height="400" alt="Origin Kernel" />
+</p>
 
-1. BEST: Make all of your changes to upstream Linux. If appropriate, backport to the stable releases.
-   These patches will be merged automatically in the corresponding common kernels. If the patch is already
-   in upstream Linux, post a backport of the patch that conforms to the patch requirements below.
-   - Do not send patches upstream that contain only symbol exports. To be considered for upstream Linux,
-additions of `EXPORT_SYMBOL_GPL()` require an in-tree modular driver that uses the symbol -- so include
-the new driver or changes to an existing driver in the same patchset as the export.
-   - When sending patches upstream, the commit message must contain a clear case for why the patch
-is needed and beneficial to the community. Enabling out-of-tree drivers or functionality is not
-not a persuasive case.
+## 📚 Contents
 
-2. LESS GOOD: Develop your patches out-of-tree (from an upstream Linux point-of-view). Unless these are
-   fixing an Android-specific bug, these are very unlikely to be accepted unless they have been
-   coordinated with kernel-team@android.com. If you want to proceed, post a patch that conforms to the
-   patch requirements below.
+- [About Origin](#-about-origin)
+- [Why Origin Kernel?](#-why-origin-kernel)
+- [Supported Devices](#-supported-devices)
+- [Features](#-features)
+- [Planned / Upcoming](#-planned--upcoming)
+- [Variants](#-variants)
+- [Installation](#-installation)
+- [Building from Source](#-building-from-source)
+- [Troubleshooting](#-troubleshooting)
+- [Kernel Information](#-kernel-information)
+- [Useful Links](#-useful-links)
+- [Contributing](#-contributing)
+- [Community & Support](#-community--support)
+- [Credits](#-credits)
+- [Disclaimer](#-disclaimer)
 
-# Common Kernel patch requirements
+> [!WARNING]
+> ### ⚠️ Flash at your own risk
+>
+> Custom kernel flashing can result in bootloops, data loss, or a non-booting device.
+> **Always keep a working copy of your stock boot-related images before modifying your device.**
+>
+> The maintainer is **not responsible** for bricked devices, damaged hardware, data loss, or any other issues caused by using this kernel. By flashing Origin Kernel, **you accept responsibility for the modifications you make to your device**.
 
-- All patches must conform to the Linux kernel coding standards and pass `scripts/checkpatch.pl`
-- Patches shall not break gki_defconfig or allmodconfig builds for arm, arm64, x86, x86_64 architectures
-(see  https://source.android.com/setup/build/building-kernels)
-- If the patch is not merged from an upstream branch, the subject must be tagged with the type of patch:
-`UPSTREAM:`, `BACKPORT:`, `FROMGIT:`, `FROMLIST:`, or `ANDROID:`.
-- All patches must have a `Change-Id:` tag (see https://gerrit-review.googlesource.com/Documentation/user-changeid.html)
-- If an Android bug has been assigned, there must be a `Bug:` tag.
-- All patches must have a `Signed-off-by:` tag by the author and the submitter
+## 🌌 About Origin
 
-Additional requirements are listed below based on patch type
+Origin Kernel is built with a focus on balancing **performance, stability, battery life, and additional kernel functionality** for MediaTek-based Nothing devices.
 
-## Requirements for backports from mainline Linux: `UPSTREAM:`, `BACKPORT:`
+The project combines kernel features, upstream improvements, custom tuning, and selected third-party components into device-specific builds.
 
-- If the patch is a cherry-pick from Linux mainline with no changes at all
-    - tag the patch subject with `UPSTREAM:`.
-    - add upstream commit information with a `(cherry picked from commit ...)` line
-    - Example:
-        - if the upstream commit message is
+## 💡 Why Origin Kernel?
+
+Stock MediaTek kernels prioritize stability over performance and lack features power users expect. Origin Kernel fills that gap:
+
+- **Root done right** — ReSukiSU with SUSFS for seamless root and hiding, compatible with multiple KernelSU managers.
+- **Performance without compromise** — CASS scheduler, Thin LTO, and curated optimization patches improve responsiveness without sacrificing battery life.
+- **Modern networking** — BBRv3 as default, IPSet, IPv6 NAT, and TTL manipulation out of the box.
+- **Device-specific tuning** — each device gets its own optimized build, not a one-size-fits-all approach.
+- **Transparent development** — open source, community-driven, with upstream backports for stability and security.
+
+## 📱 Supported Devices
+
+| Device | Codename | Status |
+|---|---|---|
+| CMF by Nothing Phone 1 | `Tetris` | 🟢 Supported |
+| CMF by Nothing Phone 2 Pro | `Galaga` | 🟢 Supported |
+| Nothing Phone (3a) Lite | `Galaxian` | 🟢 Supported |
+
+> **Important:** Always flash the build intended for your exact device. Kernel images and AnyKernel3 packages are **not** interchangeable between devices.
+
+### 🧩 Feature Availability Matrix
+
+Release notes take priority over this table — availability may change between releases.
+
+| Feature | Tetris | Galaga | Galaxian |
+|---|:---:|:---:|:---:|
+| **Root & Security** | | | |
+| ReSukiSu | ✅ | ✅ | ✅ |
+| SUSFS | ✅ | ✅ | ✅ |
+| Multi-manager KSU | ✅ | ✅ | ✅ |
+| Baseband-Guard | ✅ | ✅ | ✅ |
+| **Performance** | | | |
+| Thin LTO | ✅ | ✅ | ✅ |
+| CASS Scheduler | ✅ | ✅ | ✅ |
+| Optimization patches | ✅ | ✅ | ✅ |
+| **Memory** | | | |
+| ZRAM LZ4 | ✅ | ✅ | ✅ |
+| TMPFS_XATTR | ✅ | ✅ | ✅ |
+| TMPFS_POSIX_ACL | ✅ | ✅ | ✅ |
+| MemKernel | ✅ | ✅ | ❌ |
+| **Networking** | | | |
+| BBRv1 | ✅ | ✅ | ✅ |
+| BBRv3 (default) | ✅ | ✅ | ✅ |
+| IPSet & IPv6 NAT | ✅ | ✅ | ✅ |
+| TTL Target | 🚧 | 🚧 | 🚧 |
+| **Advanced** | | | |
+| Droidspaces-OSS | ✅ | ✅ | ✅ |
+| NetHunter | 🚧 | 🚧 | 🚧 |
+
+**Legend:** ✅ Available · 🚧 WIP · ❌ Unavailable
+
+## ✨ Features
+
+### 🔐 Root & Security
+
+- [**ReSukiSu**](https://github.com/ReSukiSU/ReSukiSU) — KernelSU-based root solution for Android GKI devices, operating in kernel mode to provide root access to userspace applications.
+- [**SUSFS**](https://gitlab.com/simonpunk/susfs4ksu) — Kernel patches and userspace support for KernelSU-oriented root hiding.
+- **Multi-manager KSU** — works with multiple KernelSU-based managers: [Official KernelSU](https://github.com/tiann/KernelSU), [KernelSU-Next](https://github.com/KernelSU-Next/KernelSU-Next), [MKSU](https://github.com/5ec1cff/KernelSU), [SukiSU](https://github.com/SukiSU-Ultra/SukiSU-Ultra), [Wild KSU](https://github.com/WildKernels/Wild_KSU), and [KowSU](https://github.com/deepongi-labs/KernelSU-KoWSU).
+- [**Baseband-Guard**](https://github.com/vc-teahouse/Baseband-guard) — LSM-based protection that blocks unauthorized writes to critical partitions and device nodes.
+
+### ⚡ Performance
+
+- **Thin LTO** — Link-Time Optimization for smaller and faster kernel builds.
+- **CASS (Capacity Aware Superset Scheduler)** — custom CPU scheduler tuning for better battery life and responsiveness.
+- **Optimization patches** — curated memory, I/O, and networking tuning from the Android and Linux communities.
+
+### 🧠 Memory
+
+- **ZRAM with LZ4 compression** — compressed swap for more usable memory.
+- **TMPFS_XATTR** — extended attributes for tmpfs (required by Mountify and similar tools).
+- **TMPFS_POSIX_ACL** — POSIX access control lists for tmpfs.
+- [**MemKernel**](https://github.com/Poko-Apps/MemKernel) — kernel driver for reading/writing physical memory from userspace.
+
+### 🌐 Networking
+
+- **BBRv3 [DEFAULT]** — modern TCP congestion control for high throughput and low latency.
+- **BBRv1** — legacy BBR option for compatibility.
+- **IPSet & IPv6 NAT** — firewall and NAT capabilities for advanced networking.
+- **TTL Target** 🚧 — packet TTL manipulation (in development).
+
+### 🐧 Advanced / Experimental
+
+- [**Droidspaces-OSS**](https://github.com/ravindu644/Droidspaces-OSS) — lightweight container runtime for running Linux environments on Android.
+- [**NetHunter**](https://www.kali.org/docs/nethunter/) 🚧 — Kali NetHunter support (work in progress).
+
+## 🧪 Planned / Upcoming
+
+Features **in development** that may appear in future releases:
+
+- 🚧 **Boeffla Wakelock Blocker** — blocks specific system wakelocks to improve battery life and reduce sleep latency.
+- 🚧 **BORE CPU Scheduler** — Burst-Oriented Response Enhancer for better UI responsiveness.
+- 🚧 **ADIOS I/O Scheduler** — Adaptive Deadline-based I/O scheduling for faster storage performance.
+- 🚧 **WQ Power Efficiency** — reduces CPU wakeups during idle periods.
+- 🚧 **ZRAM Writeback** — writes idle/compressed ZRAM pages to backing storage for more effective swap.
+- 🚧 **DAMON** — Data Access MONitor for proactive memory management based on access patterns.
+
+**Backported Upstream Fixes** (pending stable integration):
+
+- **ZRAM** — multi-stream compression for better ratios.
+- **f2fs** — inline inode handling, compress cache validation, ACL fixes, write I/O UAF prevention.
+- **ext4** — inline data bounds checking, superblock update checks, DAX restrictions on encrypted files.
+- **mm** — percpu bitmap overflow, page reporting UAF during suspend, vmalloc ptdump UAF, huge_zero_pfn race.
+- **Scheduler** — deadline migration warnings, RT push task race, PSI timer shutdown for power savings.
+- **Network** — IGMP UAF prevention, bridge multicast UAF fix.
+- **Vendor hooks** — memcg PSI recording skip, migration batch hooks, direct reclaim hooks.
+
+## 🧩 Variants
+
+| Variant | Description |
+|---|---|
+| **Origin-ReSukiSU** | Includes ReSukiSU for ready-to-use kernel root. |
+| **Origin-KSUN** | Built with KernelSU-Next for the latest KernelSU experience. |
+| **Origin-Vanilla** | No pre-integrated root — for use in custom ROM builds. |
+
+> **Note:** Variant availability may differ between devices and releases. Check release notes before flashing.
+
+## 📲 Installation
+
+### Prerequisites
+
+- **Unlocked bootloader**
+- **Backup of current boot image** (stock `boot.img`, `init_boot`, or `vendor_boot`)
+- Root access via **Magisk / KernelSU / APatch** (required for some methods)
+- [MagiskBoot](https://github.com/svoboda18/magiskboot) — for manual boot image patching
+- [Wild KSU Manager](https://github.com/WildKernels/Wild_KSU/releases/tag/v3.1.2) — for Wild KSU workflow
+
+> [!IMPORTANT]
+> ### ⚠️ Fenrir users
+> If you are using **Fenrir**, the AnyKernel3 ZIP will **not** change the kernel due to a conflict. Patch your `boot.img` with the Origin Kernel `Image` and flash via **fastboot** instead. See [Method 3](#method-3--manual-boot-image-patching).
+
+### Method 1 — Kernel Flasher
+
+1. Download the correct **AnyKernel3 (AK3) ZIP** for your device.
+2. Clean up any previous root setup:
+   - **Magisk:** fully uninstall after flashing.
+   - **KSU LKM:** restore the stock image that was patched.
+   - **KSU GKI:** restore stock images if not already done.
+   - **APatch:** remove `/data/adb` contents to avoid conflicts.
+3. Flash the ZIP to the active slot using Kernel Flasher.
+4. Install the **KernelSU-Next Manager APK** from the release notes.
+5. Reboot.
+
+### Method 2 — KernelSU / KernelSU-Next App
+
+If already rooted with KernelSU or a compatible fork, flash the **AnyKernel3 ZIP directly from the manager**.
+
+### Method 3 — Manual Boot Image Patching
+
+```bash
+# 1. Unpack stock boot image
+./magiskboot unpack boot.img
+
+# 2. Delete the extracted kernel file
+rm kernel
+
+# 3. Copy and rename Origin Kernel Image to kernel
+cp Image kernel
+
+# 4. Repack
+./magiskboot repack boot.img
+
+# 5. Flash the patched image
+fastboot flash boot new-boot.img
 ```
-        important patch from upstream
 
-        This is the detailed description of the important patch
+### Method 4 — Wild KSU Manager
 
-        Signed-off-by: Fred Jones <fred.jones@foo.org>
-```
->- then Joe Smith would upload the patch for the common kernel as
-```
-        UPSTREAM: important patch from upstream
+1. Obtain root with **Wild KSU**.
+2. Open Wild KSU → **Install → GKI → Patch boot image**.
+3. Select the **AnyKernel3 ZIP**, then select your stock boot image.
+4. Flash the resulting `WildKSU-GKI----` image via Kernel Flasher or fastboot.
 
-        This is the detailed description of the important patch
+## 🔧 Building from Source
 
-        Signed-off-by: Fred Jones <fred.jones@foo.org>
+```bash
+# 1. Clone the repository
+git clone https://github.com/samakshkambxj/origin-kernel.git
+cd origin-kernel
 
-        Bug: 135791357
-        Change-Id: I4caaaa566ea080fa148c5e768bb1a0b6f7201c01
-        (cherry picked from commit c31e73121f4c1ec41143423ac6ce3ce6dafdcec1)
-        Signed-off-by: Joe Smith <joe.smith@foo.org>
-```
+# 2. Set up the build environment (requires clang + GCC toolchain)
+export ARCH=arm64
+export SUBARCH=arm64
+export CROSS_COMPILE=aarch64-linux-gnu-
+export CROSS_COMPILE_ARM32=arm-linux-gnueabi-
 
-- If the patch requires any changes from the upstream version, tag the patch with `BACKPORT:`
-instead of `UPSTREAM:`.
-    - use the same tags as `UPSTREAM:`
-    - add comments about the changes under the `(cherry picked from commit ...)` line
-    - Example:
-```
-        BACKPORT: important patch from upstream
+# 3. Generate defconfig
+make gki_defconfig
 
-        This is the detailed description of the important patch
-
-        Signed-off-by: Fred Jones <fred.jones@foo.org>
-
-        Bug: 135791357
-        Change-Id: I4caaaa566ea080fa148c5e768bb1a0b6f7201c01
-        (cherry picked from commit c31e73121f4c1ec41143423ac6ce3ce6dafdcec1)
-        [joe: Resolved minor conflict in drivers/foo/bar.c ]
-        Signed-off-by: Joe Smith <joe.smith@foo.org>
+# 4. Build the kernel
+make -j$(nproc)
 ```
 
-## Requirements for other backports: `FROMGIT:`, `FROMLIST:`,
+Output kernel image will be at `arch/arm64/boot/Image`. Use [AnyKernel3](https://github.com/osm0sis/AnyKernel3) to package it as a flashable ZIP.
 
-- If the patch has been merged into an upstream maintainer tree, but has not yet
-been merged into Linux mainline
-    - tag the patch subject with `FROMGIT:`
-    - add info on where the patch came from as `(cherry picked from commit <sha1> <repo> <branch>)`. This
-must be a stable maintainer branch (not rebased, so don't use `linux-next` for example).
-    - if changes were required, use `BACKPORT: FROMGIT:`
-    - Example:
-        - if the commit message in the maintainer tree is
-```
-        important patch from upstream
+## 🔍 Troubleshooting
 
-        This is the detailed description of the important patch
+| Issue | Solution |
+|---|---|
+| **Bootloop after flashing** | Boot to recovery, restore stock `boot.img` via fastboot: `fastboot flash boot boot.img` |
+| **No root access** | Install the KernelSU-Next manager APK from the release notes and reboot |
+| **App detects root (SafetyNet/Play Integrity)** | Enable DenyList in KernelSU-Next manager, enable SUSFS mount hiding |
+| **Device feels slower after flashing** | Clear cache from recovery, reboot again; performance improves after a few charge cycles |
+| **WiFi/BT broken** | Ensure you flashed the correct device variant; restore stock image and re-flash |
 
-        Signed-off-by: Fred Jones <fred.jones@foo.org>
-```
->- then Joe Smith would upload the patch for the common kernel as
-```
-        FROMGIT: important patch from upstream
+If none of these work, collect logs (`dmesg`, `logcat`) and open an issue on GitHub.
 
-        This is the detailed description of the important patch
+## 🛠️ Kernel Information
 
-        Signed-off-by: Fred Jones <fred.jones@foo.org>
+| Codename | Device | Kernel | Root Method |
+|---|---|---|---|
+| `Tetris` | CMF Phone 1 | 6.1.162 | KernelSU-Next |
+| `Galaga` | CMF Phone 2 Pro | 6.1.145 | KernelSU-Next |
+| `Galaxian` | Nothing Phone (3a) Lite | 6.1.145 | KernelSU-Next |
 
-        Bug: 135791357
-        (cherry picked from commit 878a2fd9de10b03d11d2f622250285c7e63deace
-         https://git.kernel.org/pub/scm/linux/kernel/git/foo/bar.git test-branch)
-        Change-Id: I4caaaa566ea080fa148c5e768bb1a0b6f7201c01
-        Signed-off-by: Joe Smith <joe.smith@foo.org>
-```
+## 🔗 Useful Links
 
+- [Kernel Flasher (fatalcoder524 fork)](https://github.com/fatalcoder524/KernelFlasher/releases/latest)
+- [Nothing Archive — spike0en](https://spike0en.github.io/nothing_archive/)
+- [Flashing Stock ROM / Unbrick / Downgrade Guide](https://spike0en.github.io/nothing_archive/docs/guides#flashing-stock-rom-unbrick--downgrade)
+- [Hard Unbrick Guide](https://spike0en.github.io/nothing_archive/docs/guides#hard-unbrick)
 
-- If the patch has been submitted to LKML, but not accepted into any maintainer tree
-    - tag the patch subject with `FROMLIST:`
-    - add a `Link:` tag with a link to the submittal on lore.kernel.org
-    - add a `Bug:` tag with the Android bug (required for patches not accepted into
-a maintainer tree)
-    - if changes were required, use `BACKPORT: FROMLIST:`
-    - Example:
-```
-        FROMLIST: important patch from upstream
+## 💬 Community & Support
 
-        This is the detailed description of the important patch
+- [Telegram Updates Channel](https://t.me/itsonlyachannel)
+- [Telegram Support Chat](https://t.me/itisnotwhatyouthinkitis)
+- [GitHub Issues](https://github.com/samakshkambxj/origin-kernel/issues)
 
-        Signed-off-by: Fred Jones <fred.jones@foo.org>
+## 🤝 Contributing
 
-        Bug: 135791357
-        Link: https://lore.kernel.org/lkml/20190619171517.GA17557@someone.com/
-        Change-Id: I4caaaa566ea080fa148c5e768bb1a0b6f7201c01
-        Signed-off-by: Joe Smith <joe.smith@foo.org>
-```
+Contributions are welcome. Here's how you can help:
 
-## Requirements for Android-specific patches: `ANDROID:`
+- **Bug reports** — open an issue with device model, OS version, and steps to reproduce.
+- **Code contributions** — fork the repo, create a feature branch, and submit a pull request.
+- **Testing** — flash experimental builds and report back on stability and performance.
+- **Documentation** — improve this README, translate guides, or write tutorials.
 
-- If the patch is fixing a bug to Android-specific code
-    - tag the patch subject with `ANDROID:`
-    - add a `Fixes:` tag that cites the patch with the bug
-    - Example:
-```
-        ANDROID: fix android-specific bug in foobar.c
+Please follow the existing code style and test changes on your device before submitting.
 
-        This is the detailed description of the important fix
+## 🙏 Credits
 
-        Fixes: 1234abcd2468 ("foobar: add cool feature")
-        Change-Id: I4caaaa566ea080fa148c5e768bb1a0b6f7201c01
-        Signed-off-by: Joe Smith <joe.smith@foo.org>
-```
+- **KernelSU** — [tiann](https://github.com/tiann/KernelSU)
+- **KernelSU-Next / ReSukiSu** — [rifsxd](https://github.com/KernelSU-Next/KernelSU-Next)
+- **MKSU** — [5ec1cff](https://github.com/5ec1cff/KernelSU)
+- **SUSFS** — [simonpunk](https://gitlab.com/simonpunk/susfs4ksu)
+- **SUSFS Module** — [sidex15](https://github.com/sidex15)
+- **Sultan Kernels** — [kerneltoast](https://github.com/kerneltoast)
+- **Kernel Flasher** — [fatalcoder524](https://github.com/fatalcoder524)
+- **Baseband-Guard** — [vc-teahouse](https://github.com/vc-teahouse/Baseband-guard)
 
-- If the patch is a new feature
-    - tag the patch subject with `ANDROID:`
-    - add a `Bug:` tag with the Android bug (required for android-specific features)
+Thanks to all contributors, testers, and the Nothing community.
 
+## ⭐ Like My Work?
+
+If you found **Origin Kernel** useful, consider giving the repo a **star** on GitHub — it helps support the project!
+
+## ⚠️ Disclaimer
+
+Flashing a custom kernel involves inherent risks, including bootloops, data loss, or device failure. Unlocking the bootloader or modifying system software may also affect warranty or service eligibility.
+
+Always back up your data and stock boot images before flashing. Use only the build intended for your exact codename.
+
+**Proceed at your own risk.**
