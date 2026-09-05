@@ -8,6 +8,10 @@
 #include <linux/prefetch.h>
 #include "mount.h"
 
+#ifdef CONFIG_ZEROMOUNT
+#include <linux/zeromount.h>
+#endif
+
 struct prepend_buffer {
 	char *buf;
 	int len;
@@ -265,6 +269,24 @@ char *d_path(const struct path *path, char *buf, int buflen)
 {
 	DECLARE_BUFFER(b, buf, buflen);
 	struct path root;
+
+#ifdef CONFIG_ZEROMOUNT
+	if (path->dentry && d_backing_inode(path->dentry)) {
+		char *v_path = zeromount_get_static_vpath(d_backing_inode(path->dentry));
+
+		if (v_path) {
+			int len = strlen(v_path);
+			if (buflen < len + 1) {
+				kfree(v_path);
+				return ERR_PTR(-ENAMETOOLONG);
+			}
+			memcpy(buf, v_path, len);
+			buf[len] = '\0';
+			kfree(v_path);
+			return buf;
+		}
+	}
+#endif
 
 	/*
 	 * We have various synthetic filesystems that never get mounted.  On
