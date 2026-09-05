@@ -23,6 +23,9 @@
 #include <linux/susfs_def.h>
 #endif // #ifdef CONFIG_KSU_SUSFS
 #include <linux/uaccess.h>
+#ifdef CONFIG_ZEROMOUNT
+#include <linux/zeromount.h>
+#endif
 #include <asm/unistd.h>
 
 #include "internal.h"
@@ -274,6 +277,40 @@ int getname_statx_lookup_flags(int flags)
  *
  * 0 will be returned on success, and a -ve error code if unsuccessful.
  */
+#ifdef CONFIG_ZEROMOUNT
+static inline int zeromount_stat_hook(int dfd, struct filename *filename,
+                                      struct kstat *stat, unsigned int request_mask,
+                                      int flags) {
+    if (zm_is_recursive() || IS_ERR_OR_NULL(filename)) return -ENOENT;
+    if (filename && filename->name) {
+        const char *kname = filename->name;
+        if (kname[0] != '/') {
+            char *abs_path = zeromount_build_absolute_path(dfd, kname);
+            if (abs_path) {
+                char *resolved = zeromount_resolve_path(abs_path);
+                if (resolved) {
+                    struct path zm_path;
+                    int zm_ret;
+                    zm_enter();
+                    zm_ret = kern_path(resolved, (flags & AT_SYMLINK_NOFOLLOW) ? 0 : LOOKUP_FOLLOW, &zm_path);
+                    zm_exit();
+                    kfree(resolved);
+                    kfree(abs_path);
+                    if (zm_ret == 0) {
+                        zm_ret = vfs_getattr(&zm_path, stat, request_mask,
+                                             (flags & AT_SYMLINK_NOFOLLOW) ? AT_SYMLINK_NOFOLLOW : 0);
+                        path_put(&zm_path);
+                        return zm_ret;
+                    }
+                } else {
+                    kfree(abs_path);
+                }
+            }
+        }
+    }
+    return -ENOENT;
+}
+#endif
 static int vfs_statx(int dfd, struct filename *filename, int flags,
 	      struct kstat *stat, u32 request_mask)
 {
@@ -291,6 +328,14 @@ static int vfs_statx(int dfd, struct filename *filename, int flags,
 	}
 
 orig_flow:
+#endif
+
+#ifdef CONFIG_ZEROMOUNT
+	if (filename) {
+		int zm_ret = zeromount_stat_hook(dfd, filename, stat, request_mask, flags);
+		if (zm_ret != -ENOENT)
+			return zm_ret;
+	}
 #endif
 
 	if (flags & ~(AT_SYMLINK_NOFOLLOW | AT_NO_AUTOMOUNT | AT_EMPTY_PATH |
