@@ -115,6 +115,7 @@
 #undef CREATE_TRACE_POINTS
 #include <trace/hooks/sched.h>
 #include <trace/hooks/mm.h>
+#include <trace/hooks/dtask.h>
 /*
  * Minimum number of threads to boot the kernel
  */
@@ -1160,6 +1161,7 @@ static struct task_struct *dup_task_struct(struct task_struct *orig, int node)
 	setup_thread_stack(tsk, orig);
 	clear_user_return_notifier(tsk);
 	clear_tsk_need_resched(tsk);
+	trace_android_vh_clear_curr_lazy(tsk);
 	set_task_stack_end_magic(tsk);
 	clear_syscall_work_syscall_user_dispatch(tsk);
 
@@ -2794,6 +2796,7 @@ static __latent_entropy struct task_struct *copy_process(
 	trace_task_newtask(p, clone_flags);
 	uprobe_copy_process(p, clone_flags);
 
+	trace_android_vh_lock_task_fork(p);
 	copy_oom_score_adj(clone_flags, p);
 
 	return p;
@@ -3505,11 +3508,10 @@ int ksys_unshare(unsigned long unshare_flags)
 					 new_cred, new_fs);
 	if (err)
 		goto bad_unshare_cleanup_cred;
-
 	if (new_cred) {
 		err = set_cred_ucounts(new_cred);
 		if (err)
-			goto bad_unshare_cleanup_cred;
+			goto bad_unshare_cleanup_nsproxy;
 	}
 
 	if (new_fs || new_fd || do_sysvsem || new_cred || new_nsproxy) {
@@ -3525,8 +3527,10 @@ int ksys_unshare(unsigned long unshare_flags)
 			shm_init_task(current);
 		}
 
-		if (new_nsproxy)
+		if (new_nsproxy) {
 			switch_task_namespaces(current, new_nsproxy);
+			new_nsproxy = NULL;
+		}
 
 		task_lock(current);
 
@@ -3567,13 +3571,15 @@ int ksys_unshare(unsigned long unshare_flags)
 
 	perf_event_namespaces(current);
 
+bad_unshare_cleanup_nsproxy:
+	if (new_nsproxy)
+		put_nsproxy(new_nsproxy);
 bad_unshare_cleanup_cred:
 	if (new_cred)
 		put_cred(new_cred);
 bad_unshare_cleanup_fd:
 	if (new_fd)
 		put_files_struct(new_fd);
-
 bad_unshare_cleanup_fs:
 	if (new_fs)
 		free_fs_struct(new_fs);
