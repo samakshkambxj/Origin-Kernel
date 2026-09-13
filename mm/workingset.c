@@ -246,6 +246,27 @@ static void *lru_gen_eviction(struct folio *folio)
 	return pack_shadow(mem_cgroup_id(memcg), pgdat, token, refs);
 }
 
+/*
+ * Tests if the shadow entry is for a folio that was recently evicted.
+ * Fills in @lruvec, @token, @workingset with the values unpacked from shadow.
+ */
+static bool lru_gen_test_recent(void *shadow, bool file, struct lruvec **lruvec,
+				unsigned long *token, bool *workingset)
+{
+	int memcg_id;
+	unsigned long min_seq;
+	struct mem_cgroup *memcg;
+	struct pglist_data *pgdat;
+
+	unpack_shadow(shadow, &memcg_id, &pgdat, token, workingset);
+
+	memcg = mem_cgroup_from_id(memcg_id);
+	*lruvec = mem_cgroup_lruvec(memcg, pgdat);
+
+	min_seq = READ_ONCE((*lruvec)->lrugen.min_seq[file]);
+	return (*token >> LRU_REFS_WIDTH) == (min_seq & (EVICTION_MASK >> LRU_REFS_WIDTH));
+}
+
 static void lru_gen_refault(struct folio *folio, void *shadow)
 {
 	int hist, tier, refs;
@@ -310,11 +331,110 @@ static void *lru_gen_eviction(struct folio *folio)
 	return NULL;
 }
 
+static bool lru_gen_test_recent(void *shadow, bool file, struct lruvec **lruvec,
+				unsigned long *token, bool *workingset)
+{
+	return false;
+}
+
 static void lru_gen_refault(struct folio *folio, void *shadow)
 {
 }
 
 #endif /* CONFIG_LRU_GEN */
+
+/**
+ * workingset_test_recent - tests if the shadow entry is for a folio that was
+ * recently evicted. Also fills in @workingset with the value unpacked from
+ * shadow.
+ * @shadow: the shadow entry to be tested.
+ * @file: whether the corresponding folio is from the file lru.
+ * @workingset: where the workingset value unpacked from shadow should
+ * be stored.
+ *
+ * Return: true if the shadow is for a recently evicted folio; false otherwise.
+ */
+bool workingset_test_recent(void *shadow, bool file, bool *workingset)
+{
+	struct mem_cgroup *eviction_memcg;
+	struct lruvec *eviction_lruvec;
+	unsigned long refault_distance;
+	unsigned long workingset_size;
+	unsigned long refault;
+	int memcgid;
+	struct pglist_data *pgdat;
+	unsigned long eviction;
+
+	if (lru_gen_enabled())
+		return lru_gen_test_recent(shadow, file, &eviction_lruvec, &eviction, workingset);
+
+	unpack_shadow(shadow, &memcgid, &pgdat, &eviction, workingset);
+	eviction <<= bucket_order;
+
+	/*
+	 * Look up the memcg associated with the stored ID. It might
+	 * have been deleted since the folio's eviction.
+	 *
+	 * Note that in rare events the ID could have been recycled
+	 * for a new cgroup that refaults a shared folio. This is
+	 * impossible to tell from the available data. However, this
+	 * should be a rare and limited disturbance, and activations
+	 * are always speculative anyway. Ultimately, it's the aging
+	 * algorithm's job to shake out the minimum access frequency
+	 * for the active cache.
+	 *
+	 * XXX: On !CONFIG_MEMCG, this will always return NULL; it
+	 * would be better if the root_mem_cgroup existed in all
+	 * configurations instead.
+	 */
+	eviction_memcg = mem_cgroup_from_id(memcgid);
+	if (!mem_cgroup_disabled() && !eviction_memcg)
+		return false;
+
+	eviction_lruvec = mem_cgroup_lruvec(eviction_memcg, pgdat);
+	refault = atomic_long_read(&eviction_lruvec->nonresident_age);
+
+	/*
+	 * Calculate the refault distance
+	 *
+	 * The unsigned subtraction here gives an accurate distance
+	 * across nonresident_age overflows in most cases. There is a
+	 * special case: usually, shadow entries have a short lifetime
+	 * and are either refaulted or reclaimed along with the inode
+	 * before they get too old.  But it is not impossible for the
+	 * nonresident_age to lap a shadow entry in the field, which
+	 * can then result in a false small refault distance, leading
+	 * to a false activation should this old entry actually
+	 * refault again.  However, earlier kernels used to deactivate
+	 * unconditionally with *every* reclaim invocation for the
+	 * longest time, so the occasional inappropriate activation
+	 * leading to pressure on the active list is not a problem.
+	 */
+	refault_distance = (refault - eviction) & EVICTION_MASK;
+
+	/*
+	 * Compare the distance to the existing workingset size. We
+	 * don't activate pages that couldn't stay resident even if
+	 * all the memory was available to the workingset. Whether
+	 * workingset competition needs to consider anon or not depends
+	 * on having free swap space.
+	 */
+	workingset_size = lruvec_page_state(eviction_lruvec, NR_ACTIVE_FILE);
+	if (!file) {
+		workingset_size += lruvec_page_state(eviction_lruvec,
+						     NR_INACTIVE_FILE);
+	}
+	if (mem_cgroup_get_nr_swap_pages(eviction_memcg) > 0) {
+		workingset_size += lruvec_page_state(eviction_lruvec,
+						     NR_ACTIVE_ANON);
+		if (file) {
+			workingset_size += lruvec_page_state(eviction_lruvec,
+						     NR_INACTIVE_ANON);
+		}
+	}
+
+	return refault_distance <= workingset_size;
+}
 
 /**
  * workingset_age_nonresident - age non-resident entries as LRU ages

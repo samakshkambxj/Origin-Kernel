@@ -887,10 +887,7 @@ __SYSCALL(__NR_futex_waitv, sys_futex_waitv)
 __SYSCALL(__NR_set_mempolicy_home_node, sys_set_mempolicy_home_node)
 
 #define __NR_cachestat 451
-/* TODO(backport item 44 follow-up): wire to sys_cachestat once the
- * pagecache-statistics implementation is backported from 6.6.
- * Number reserved here to keep fchmodat2 at its upstream ABI number. */
-__SYSCALL(__NR_cachestat, sys_ni_syscall)
+__SYSCALL(__NR_cachestat, sys_cachestat)
 
 #define __NR_fchmodat2 452
 __SYSCALL(__NR_fchmodat2, sys_fchmodat2)
