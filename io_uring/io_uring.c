@@ -71,6 +71,8 @@
 #include <linux/io_uring.h>
 #include <linux/audit.h>
 #include <linux/security.h>
+#include <linux/cred.h>
+#include <linux/sysctl.h>
 #include <linux/vmalloc.h>
 #include <asm/shmparam.h>
 
@@ -152,6 +154,31 @@ static void io_move_task_work_from_local(struct io_ring_ctx *ctx);
 static void __io_submit_flush_completions(struct io_ring_ctx *ctx);
 
 static struct kmem_cache *req_cachep;
+
+static int __read_mostly sysctl_io_uring_disabled;
+static int __read_mostly sysctl_io_uring_group = -1;
+
+#ifdef CONFIG_SYSCTL
+static struct ctl_table kernel_io_uring_disabled_table[] = {
+	{
+		.procname	= "io_uring_disabled",
+		.data		= &sysctl_io_uring_disabled,
+		.maxlen		= sizeof(sysctl_io_uring_disabled),
+		.mode		= 0644,
+		.proc_handler	= proc_dointvec_minmax,
+		.extra1		= SYSCTL_ZERO,
+		.extra2		= SYSCTL_TWO,
+	},
+	{
+		.procname	= "io_uring_group",
+		.data		= &sysctl_io_uring_group,
+		.maxlen		= sizeof(gid_t),
+		.mode		= 0644,
+		.proc_handler	= proc_dointvec,
+	},
+	{},
+};
+#endif
 
 static inline void io_submit_flush_completions(struct io_ring_ctx *ctx)
 {
@@ -3793,9 +3820,30 @@ static long io_uring_setup(u32 entries, struct io_uring_params __user *params)
 	return io_uring_create(entries, &p, params);
 }
 
+static inline bool io_uring_allowed(void)
+{
+	int disabled = READ_ONCE(sysctl_io_uring_disabled);
+	kgid_t io_uring_group;
+
+	if (disabled == 2)
+		return false;
+
+	if (disabled == 0 || capable(CAP_SYS_ADMIN))
+		return true;
+
+	io_uring_group = make_kgid(&init_user_ns, sysctl_io_uring_group);
+	if (!gid_valid(io_uring_group))
+		return false;
+
+	return in_group_p(io_uring_group);
+}
+
 SYSCALL_DEFINE2(io_uring_setup, u32, entries,
 		struct io_uring_params __user *, params)
 {
+	if (!io_uring_allowed())
+		return -EPERM;
+
 	return io_uring_setup(entries, params);
 }
 
@@ -4358,6 +4406,9 @@ static int __init io_uring_init(void)
 
 	req_cachep = KMEM_CACHE(io_kiocb, SLAB_HWCACHE_ALIGN | SLAB_PANIC |
 				SLAB_ACCOUNT);
+#ifdef CONFIG_SYSCTL
+	register_sysctl_init("kernel", kernel_io_uring_disabled_table);
+#endif
 	return 0;
 };
 __initcall(io_uring_init);
