@@ -184,6 +184,12 @@ config PM_USERSPACE_AUTOSLEEP
 	extremely certain that this is what you want. The option otherwise has
 	bad, undesirable effects, and should not be enabled just for fun.
 
+config WAKELOCK_BLOCKER
+	bool "Boeffla wakelock blocker"
+	default y
+	help
+	  Allows userspace to block wakeup sources by name through the
+	  boeffla_wakelock_blocker interface.
 
 config PM_WAKELOCKS
 	bool "User space wakeup sources interface"
