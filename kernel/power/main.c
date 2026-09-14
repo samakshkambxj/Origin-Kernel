@@ -911,12 +911,7 @@ static ssize_t pm_freeze_timeout_store(struct kobject *kobj,
 				       struct kobj_attribute *attr,
 				       const char *buf, size_t n)
 {
-	unsigned long val;
-
-	if (kstrtoul(buf, 10, &val))
-		return -EINVAL;
-
-	freeze_timeout_msecs = val;
+	/* Don't let anything in Android change the freeze timeout */
 	return n;
 }
 
