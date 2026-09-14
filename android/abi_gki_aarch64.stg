@@ -150133,6 +150133,12 @@ member {
   offset: 768
 }
 member {
+  id: 0xf4dec516
+  name: "pd_rev"
+  type_id: 0xb86bbd27
+  offset: 34336
+}
+member {
   id: 0x148dd054
   name: "pd_revision"
   type_id: 0x914dbfdc
@@ -170741,6 +170747,17 @@ member {
   name: "rev"
   type_id: 0x295c7202
   offset: 32
+}
+member {
+  id: 0x5a462436
+  name: "rev_major"
+  type_id: 0x295c7202
+}
+member {
+  id: 0xffd8baff
+  name: "rev_minor"
+  type_id: 0x295c7202
+  offset: 8
 }
 member {
   id: 0x006556c8
@@ -207454,6 +207471,18 @@ member {
   id: 0xefac5339
   name: "ver"
   type_id: 0xc9082b19
+}
+member {
+  id: 0x550a2434
+  name: "ver_major"
+  type_id: 0x295c7202
+  offset: 16
+}
+member {
+  id: 0x7aec6bc4
+  name: "ver_minor"
+  type_id: 0x295c7202
+  offset: 24
 }
 member {
   id: 0x816935ff
@@ -252427,6 +252456,18 @@ struct_union {
   }
 }
 struct_union {
+  id: 0xb86bbd27
+  kind: STRUCT
+  name: "pd_revision_info"
+  definition {
+    bytesize: 4
+    member_id: 0x5a462436
+    member_id: 0xffd8baff
+    member_id: 0x550a2434
+    member_id: 0x7aec6bc4
+  }
+}
+struct_union {
   id: 0x308c0299
   kind: STRUCT
   name: "pdev_archdata"
@@ -266169,6 +266210,7 @@ struct_union {
     member_id: 0x0161008f
     member_id: 0x3e93273a
     member_id: 0x5016a2b8
+    member_id: 0xf4dec516
     member_id: 0xf3efe442
     member_id: 0x6339ac5e
     member_id: 0x2a721ab3
@@ -289200,6 +289242,10 @@ enumeration {
       name: "PD_MSG_DATA_SOURCE_CAP"
       value: 5
     }
+    enumerator {
+      name: "PD_MSG_DATA_REV"
+      value: 6
+    }
   }
 }
 enumeration {
@@ -292581,6 +292627,10 @@ enumeration {
     enumerator {
       name: "COUNTRY_CODES"
       value: 33
+    }
+    enumerator {
+      name: "REVISION_INFORMATION"
+      value: 34
     }
   }
 }
