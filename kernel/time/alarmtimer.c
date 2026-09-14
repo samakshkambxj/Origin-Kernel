@@ -38,6 +38,9 @@
 #include <linux/sched.h>
 #define MAX_ALARM_CNT	10000ULL
 #endif
+EXPORT_TRACEPOINT_SYMBOL_GPL(alarmtimer_start);
+EXPORT_TRACEPOINT_SYMBOL_GPL(alarmtimer_cancel);
+EXPORT_TRACEPOINT_SYMBOL_GPL(alarmtimer_fired);
 
 /**
  * struct alarm_base - Alarm timer bases
