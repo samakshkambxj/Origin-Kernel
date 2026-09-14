@@ -513,21 +513,24 @@ int utf8byte(struct utf8cursor *u8c)
 		    u8c->um->ntab[u8c->n]->maxage) {
 			ccc = STOPPER;
 		} else if (ccc == DECOMPOSE) {
-			u8c->len -= utf8clen(u8c->s);
-			u8c->p = u8c->s + utf8clen(u8c->s);
-			u8c->s = LEAF_STR(leaf);
-			/* Empty decomposition implies CCC 0. */
-			if (*u8c->s == '\0') {
-				if (u8c->ccc == STOPPER)
-					continue;
+			/*
+			 * Check for an empty decomposition first, so that the
+			 * cursor is only moved onto it when there is something
+			 * to decompose.
+			 */
+			if (*LEAF_STR(leaf) == '\0') {
 				ccc = STOPPER;
-				goto ccc_mismatch;
-			}
+			} else {
+				u8c->len -= utf8clen(u8c->s);
+				u8c->p = u8c->s + utf8clen(u8c->s);
+				u8c->s = LEAF_STR(leaf);
 
-			leaf = utf8lookup(u8c->um, u8c->n, u8c->hangul, u8c->s);
-			if (!leaf)
-				return -1;
-			ccc = LEAF_CCC(leaf);
+				/* Continue the search from the decomposition. */
+				leaf = utf8lookup(u8c->um, u8c->n, u8c->hangul, u8c->s);
+				if (!leaf)
+					return -1;
+				ccc = LEAF_CCC(leaf);
+			}
 		}
 
 		/*
