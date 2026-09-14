@@ -40283,6 +40283,10 @@ member {
   type_id: 0x05fd3859
 }
 member {
+  id: 0x22c4a601
+  type_id: 0x043ce814
+}
+member {
   id: 0x22ce0593
   type_id: 0x0416665f
 }
@@ -40664,6 +40668,10 @@ member {
 member {
   id: 0x2ee1d79b
   type_id: 0x34a92e7f
+}
+member {
+  id: 0x2f1819a7
+  type_id: 0x334e168e
 }
 member {
   id: 0x2f5313ba
@@ -41175,6 +41183,11 @@ member {
   id: 0x345b12e5
   type_id: 0x5e4227fb
   offset: 1024
+}
+member {
+  id: 0x345b9433
+  type_id: 0x5e403fda
+  offset: 28928
 }
 member {
   id: 0x345f6930
@@ -49365,6 +49378,11 @@ member {
   offset: 2560
 }
 member {
+  id: 0xac894956
+  name: "android_kabi_reserved3"
+  type_id: 0x92233392
+}
+member {
   id: 0xac894975
   name: "android_kabi_reserved3"
   type_id: 0x92233392
@@ -49495,12 +49513,6 @@ member {
   name: "android_kabi_reserved3"
   type_id: 0x92233392
   offset: 320
-}
-member {
-  id: 0xac894e97
-  name: "android_kabi_reserved3"
-  type_id: 0x92233392
-  offset: 28928
 }
 member {
   id: 0xac894f0c
@@ -206566,6 +206578,12 @@ member {
   bitsize: 1
 }
 member {
+  id: 0x7142b33f
+  name: "user_dumpable"
+  type_id: 0x4585663f
+  bitsize: 1
+}
+member {
   id: 0x8c221133
   name: "user_id"
   type_id: 0x33756485
@@ -215307,6 +215325,14 @@ struct_union {
   }
 }
 struct_union {
+  id: 0x043ce814
+  kind: STRUCT
+  definition {
+    bytesize: 4
+    member_id: 0x7142b33f
+  }
+}
+struct_union {
   id: 0x048fc360
   kind: STRUCT
   definition {
@@ -218369,6 +218395,14 @@ struct_union {
   }
 }
 struct_union {
+  id: 0x334e168e
+  kind: STRUCT
+  definition {
+    bytesize: 8
+    member_id: 0xac894956
+  }
+}
+struct_union {
   id: 0x337e48e0
   kind: STRUCT
   definition {
@@ -220654,6 +220688,16 @@ struct_union {
     bytesize: 8
     member_id: 0x2300acf6
     member_id: 0x27000c61
+    member_id: 0x36752b74
+  }
+}
+struct_union {
+  id: 0x5e403fda
+  kind: UNION
+  definition {
+    bytesize: 8
+    member_id: 0x22c4a601
+    member_id: 0x2f1819a7
     member_id: 0x36752b74
   }
 }
@@ -266696,7 +266740,7 @@ struct_union {
     member_id: 0x9a3ad7bf
     member_id: 0x3024ec51
     member_id: 0x355c5ef7
-    member_id: 0xac894e97
+    member_id: 0x345b9433
     member_id: 0xe0f63fac
     member_id: 0x22369867
     member_id: 0x66775c88
