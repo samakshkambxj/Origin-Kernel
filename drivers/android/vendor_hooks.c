@@ -576,3 +576,4 @@ EXPORT_TRACEPOINT_SYMBOL_GPL(android_vh_lock_task_fork);
 EXPORT_TRACEPOINT_SYMBOL_GPL(android_vh_lock_task_exit);
 EXPORT_TRACEPOINT_SYMBOL_GPL(android_vh_mutex_wakeup_patch);
 EXPORT_TRACEPOINT_SYMBOL_GPL(android_vh_rwsem_wakeup_patch);
+EXPORT_TRACEPOINT_SYMBOL_GPL(android_vh_signal_coredump_check);
