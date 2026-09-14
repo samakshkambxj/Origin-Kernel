@@ -1,6 +1,6 @@
 [submodule "KernelSU"]
 	path = KernelSU
-	url = https://github.com/ReSukiSU/ReSukiSU
+	url = https://github.com/ReSukiSU/ReSukiSU.git
 [submodule "susfs4ksu"]
 	path = susfs4ksu
 	url = https://gitlab.com/pershoot/susfs4ksu/
