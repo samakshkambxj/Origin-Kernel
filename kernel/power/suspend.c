@@ -138,20 +138,25 @@ static void s2idle_loop(void)
 	 * Wakeups during the noirq suspend of devices may be spurious, so try
 	 * to avoid them upfront.
 	 */
-	 /* Single wake attempt - no retry loop to reduce spurious wakeups */
-  if (s2idle_ops && s2idle_ops->wake) {
-      if (!s2idle_ops->wake()) {
-          clear_wakeup_reasons();
-          if (s2idle_ops && s2idle_ops->check)
-              s2idle_ops->check();
-          s2idle_enter();
-      }
-  } else if (!pm_wakeup_pending()) {
-      clear_wakeup_reasons();
-      if (s2idle_ops && s2idle_ops->check)
-          s2idle_ops->check();
-      s2idle_enter();
-  }
+	 /* Spurious wakeups during noirq suspend are common on
+	  * MTK conninfra (wlan/BT share one chip) and with
+	  * pm_wq no longer FREEZABLE. Retry s2idle_enter()
+	  * instead of aborting the whole suspend. */
+	for (;;) {
+		if (s2idle_ops && s2idle_ops->wake) {
+			if (s2idle_ops->wake())
+				break;
+		} else if (pm_wakeup_pending()) {
+			break;
+		}
+
+		clear_wakeup_reasons();
+
+		if (s2idle_ops && s2idle_ops->check)
+			s2idle_ops->check();
+
+		s2idle_enter();
+	}
 
 	pm_pr_dbg("resume from suspend-to-idle\n");
 }
