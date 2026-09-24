@@ -300069,6 +300069,13 @@ function {
   parameter_id: 0x33756485
 }
 function {
+  id: 0x12fe8abe
+  return_type_id: 0x48b5725f
+  parameter_id: 0x09427c40
+  parameter_id: 0x0c2e195c
+  parameter_id: 0x1bf16028
+}
+function {
   id: 0x12feb005
   return_type_id: 0x48b5725f
   parameter_id: 0x0baf61c0
@@ -364965,6 +364972,15 @@ elf_symbol {
   full_name: "blk_mq_freeze_queue"
 }
 elf_symbol {
+  id: 0xcff6a8ac
+  name: "blk_mq_in_flight_rw"
+  is_defined: true
+  symbol_type: FUNCTION
+  crc: 0x2fdabb20
+  type_id: 0x12fe8abe
+  full_name: "blk_mq_in_flight_rw"
+}
+elf_symbol {
   id: 0x98c69e3e
   name: "blk_mq_init_queue"
   is_defined: true
@@ -428436,6 +428452,7 @@ interface {
   symbol_id: 0xbc2fc882
   symbol_id: 0x70bd48bd
   symbol_id: 0x5e553962
+  symbol_id: 0xcff6a8ac
   symbol_id: 0x98c69e3e
   symbol_id: 0x16569be2
   symbol_id: 0x1f81c0c0
