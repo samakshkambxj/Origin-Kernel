@@ -384,9 +384,6 @@ DECLARE_HOOK(android_vh_filemap_map_pages_range,
 DECLARE_HOOK(android_vh_calculate_totalreserve_pages,
 	TP_PROTO(bool *skip),
 	TP_ARGS(skip));
-DECLARE_HOOK(android_vh_do_group_exit,
-	TP_PROTO(struct task_struct *tsk),
-	TP_ARGS(tsk));
 DECLARE_HOOK(android_vh_drain_all_pages_bypass,
 	TP_PROTO(gfp_t gfp_mask, unsigned int order, unsigned long alloc_flags,
 		int migratetype, unsigned long did_some_progress,
