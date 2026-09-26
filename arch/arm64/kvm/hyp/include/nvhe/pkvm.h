@@ -22,6 +22,9 @@ enum pkvm_system_misconfiguration {
 	NO_DMA_ISOLATION,
 };
 
+/* Sentinel: distinct from NULL and any real pkvm_hyp_vcpu pointer. */
+#define PKVM_PVMFW_ENTERED ((struct pkvm_hyp_vcpu *)-1L)
+
 /*
  * Holds the relevant data for maintaining the vcpu state completely at hyp.
  */
