@@ -2373,6 +2373,7 @@
   pci_irq_vector
   pci_load_and_free_saved_state
   pci_load_saved_state
+  pci_lock_rescan_remove
   pci_msi_create_irq_domain
   pci_msi_mask_irq
   pci_msi_unmask_irq
@@ -2389,6 +2390,7 @@
   pci_set_power_state
   pci_stop_and_remove_bus_device_locked
   pci_store_saved_state
+  pci_unlock_rescan_remove
   pci_unregister_driver
   pci_walk_bus
   pci_write_config_dword
@@ -2927,6 +2929,7 @@
   rproc_report_crash
   rproc_set_firmware
   rproc_shutdown
+  rtc_add_group
   rtc_time64_to_tm
   rtc_tm_to_time64
   rtc_update_irq
