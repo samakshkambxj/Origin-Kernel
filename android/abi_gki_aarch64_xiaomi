@@ -368,6 +368,38 @@
   __traceiter_android_vh_reclaim_before_kswapd
   __tracepoint_android_vh_reclaim_before_kswapd
 
+# required by mi_ext_lru.ko
+  mem_cgroup_iter
+  __traceiter_android_vh_readahead_add_folio
+  __tracepoint_android_vh_readahead_add_folio
+  __traceiter_android_vh_folio_skip_activate
+  __tracepoint_android_vh_folio_skip_activate
+  __traceiter_android_vh_folio_trylock_clear_bypass
+  __tracepoint_android_vh_folio_trylock_clear_bypass
+  __traceiter_android_vh_filemap_adjust_folio_flags
+  __tracepoint_android_vh_filemap_adjust_folio_flags
+  __traceiter_android_vh_filemap_fault_folio_locked
+  __tracepoint_android_vh_filemap_fault_folio_locked
+  __traceiter_android_vh_filemap_read_end
+  __tracepoint_android_vh_filemap_read_end
+  __traceiter_android_vh_lruvec_add_folio
+  __tracepoint_android_vh_lruvec_add_folio
+  __traceiter_android_vh_lruvec_del_folio
+  __tracepoint_android_vh_lruvec_del_folio
+  __traceiter_android_vh_mm_free_page
+  __tracepoint_android_vh_mm_free_page
+  folio_isolate_lru
+  __tracepoint_android_vh_add_file_rmap
+  __traceiter_android_vh_add_file_rmap
+  __tracepoint_android_vh_remove_file_rmap
+  __traceiter_android_vh_remove_file_rmap
+  __traceiter_android_vh_direct_reclaim_begin
+  __traceiter_android_vh_direct_reclaim_end
+  __tracepoint_android_vh_direct_reclaim_begin
+  __tracepoint_android_vh_direct_reclaim_end
+  __traceiter_android_vh_do_group_exit
+  __tracepoint_android_vh_do_group_exit
+
 #required by mi_asap.ko
   __traceiter_android_vh_read_pages
   __tracepoint_android_vh_read_pages
