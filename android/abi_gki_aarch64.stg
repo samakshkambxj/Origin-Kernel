@@ -313355,6 +313355,16 @@ function {
   parameter_id: 0x18bd6530
 }
 function {
+  id: 0x5f13d898
+  return_type_id: 0x2560a232
+  parameter_id: 0x0258f96e
+  parameter_id: 0x322c8c4b
+  parameter_id: 0x3e10b518
+  parameter_id: 0x6720d32f
+  parameter_id: 0x285cedbe
+  parameter_id: 0x3e10b518
+}
+function {
   id: 0x5f2659b9
   return_type_id: 0x309d6e18
   parameter_id: 0x8e749d69
@@ -373060,6 +373070,15 @@ elf_symbol {
   full_name: "devm_gpiod_get_array"
 }
 elf_symbol {
+  id: 0xbc1eb7f0
+  name: "devm_gpiod_get_from_of_node"
+  is_defined: true
+  symbol_type: FUNCTION
+  crc: 0xe0115930
+  type_id: 0x5f13d898
+  full_name: "devm_gpiod_get_from_of_node"
+}
+elf_symbol {
   id: 0xd0f2d980
   name: "devm_gpiod_get_index"
   is_defined: true
@@ -428944,6 +428963,7 @@ interface {
   symbol_id: 0x6903f6f8
   symbol_id: 0x097ab520
   symbol_id: 0xccb2ecff
+  symbol_id: 0xbc1eb7f0
   symbol_id: 0xd0f2d980
   symbol_id: 0x241e9d4d
   symbol_id: 0xf6b9516e

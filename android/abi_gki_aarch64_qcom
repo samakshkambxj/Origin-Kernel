@@ -619,6 +619,7 @@
   devm_gh_rm_register_platform_ops
   devm_gpiochip_add_data_with_key
   devm_gpiod_get
+  devm_gpiod_get_from_of_node
   devm_gpiod_get_optional
   devm_gpiod_put
   devm_gpio_request_one
