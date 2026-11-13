@@ -475,6 +475,25 @@ DECLARE_HOOK(android_vh_cma_alloc_bypass,
 	TP_PROTO(struct cma *cma, unsigned long count, unsigned int align,
 		gfp_t gfp_mask, struct page **page, bool *bypass),
 	TP_ARGS(cma, count, align, gfp_mask, page, bypass));
+DECLARE_HOOK(android_vh_folio_alloc_swap_bypass,
+	TP_PROTO(swp_entry_t *entry, struct folio *folio, bool *bypass),
+	TP_ARGS(entry, folio, bypass));
+DECLARE_HOOK(android_vh_pick_swap_device_bypass,
+	TP_PROTO(swp_entry_t *entry, struct swap_info_struct *si, bool *bypass),
+	TP_ARGS(entry, si, bypass));
+DECLARE_HOOK(android_vh_check_swap_range_free,
+	TP_PROTO(struct swap_info_struct *si, unsigned long offset,\
+		 unsigned int nr_pages),
+	TP_ARGS(si, offset, nr_pages));
+DECLARE_HOOK(android_vh_free_swap_slot_bypass,
+	TP_PROTO(swp_entry_t *entry, bool *bypass),
+	TP_ARGS(entry, bypass));
+DECLARE_HOOK(android_vh_swap_device_swapon,
+	TP_PROTO(struct swap_info_struct *si),
+	TP_ARGS(si));
+DECLARE_HOOK(android_vh_swap_device_swapoff,
+	TP_PROTO(struct swap_info_struct *si),
+	TP_ARGS(si));
 #endif /* _TRACE_HOOK_MM_H */
 
 /* This part must be outside protection */
