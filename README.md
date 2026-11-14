@@ -264,6 +264,12 @@ Output kernel image will be at `out/arch/arm64/boot/Image`. Use [AnyKernel3](htt
 
 `gki_defconfig` enables everything documented above, so no menuconfig step is required; the submodules (`KernelSU`, `susfs4ksu`, `Baseband-guard`) must be initialized, so run `git submodule update --init --recursive` if you cloned without `--recurse-submodules`. These commands build Origin-Reforged from `main`; switch to `vanilla` for Origin-Vanilla. Because full LTO is enabled, the final link is a single whole-kernel optimization pass — expect a long link step and several gigabytes of RAM.
 
+### 🤖 Continuous Integration
+
+The same steps are automated in [Origin-Kernel-CI](https://github.com/samakshkambxj/Origin-Kernel-CI), a GitHub Actions workflow that builds both variants with [Neutron Clang](https://github.com/Neutron-Toolchains/clang-build-catalogue) instead of a distro toolchain. It checks out `main` and `vanilla` with their submodules, generates `gki_defconfig` with `LLVM=1`, fails the run if `CONFIG_LTO_CLANG_FULL` did not survive Kconfig, then builds `Image` and uploads it with a SHA-256 checksum.
+
+The `LLVM=1` guard matters because Kconfig falls back to `CONFIG_LTO_NONE` without it, quietly producing an image without the whole-kernel optimization pass. Runs start from the Actions tab, optionally with `kernel_ref` set to build another branch or tag for both variants, or from a `v*` tag, which also attaches both images to a GitHub release. The toolchain release is pinned in the workflow and cached between runs.
+
 ## 🔍 Troubleshooting
 
 | Issue | Solution |
