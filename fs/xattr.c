@@ -24,6 +24,9 @@
 #include <linux/posix_acl_xattr.h>
 
 #include <linux/uaccess.h>
+#ifdef CONFIG_ZEROMOUNT
+#include <linux/zeromount.h>
+#endif
 
 #include "internal.h"
 
@@ -414,6 +417,15 @@ vfs_getxattr(struct user_namespace *mnt_userns, struct dentry *dentry,
 {
 	struct inode *inode = dentry->d_inode;
 	int error;
+
+#ifdef CONFIG_ZEROMOUNT
+	{
+		ssize_t zm_ret;
+		zm_ret = zeromount_spoof_xattr(dentry, name, value, size);
+		if (zm_ret != -EOPNOTSUPP)
+			return zm_ret;
+	}
+#endif
 
 	error = xattr_permission(mnt_userns, inode, name, MAY_READ);
 	if (error)
