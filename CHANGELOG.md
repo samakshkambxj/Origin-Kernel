@@ -1,64 +1,35 @@
-Origin Kernel v3 Changelog
+# Origin Kernel v3 Changelog
 
-Changelog from v2:
+**The kernel is now Unified - i.e one Image for all 3 devices :- Tetris, Galaga and Galaxian.**
 
-New Features:
-Capacity Aware Superset Scheduler with its full upstream fix series
-BORE CPU scheduler support, with CASS remaining the default
-ADIOS I/O scheduler enabled as the default
-Baseband-Guard LSM that blocks baseband writes from formatting storage
-OriginSU with SUSFS, Origin Veil and KPM built into the Reforged variant
-ZeroMount VFS path redirection for per-process mounts
-CAKE, PIE and FQ-PIE queue disciplines with FQ-PIE as the default
-TTL target support for IPv4
-BIC, Westwood and HTCP TCP congestion algorithms
-DAMON reclaim and LRU sorting with physical address monitoring
-ZRAM built into the kernel with multi-compression, writeback and memory tracking
-EROFS LZMA and ZSTD compression
-Clang full LTO in place of thin LTO
-Workqueue power efficiency enabled by default
-GKI task struct vendor size raised to 1024 bytes
-QUOTA netlink interface, SAFESETID and Android WRAPFD
-Separate Origin-Reforged and Origin-Vanilla releases, both tagged in the kernel release string
-GitHub Actions builds for Reforged, Vanilla or both
+## Changelog from v2:
+- Upstreamed to 6.1.182 (from android14-6.1.182_r00, November 2026 ASB)
+- Migrated to [OriginSU](https://github.com/samakshkambxj/OriginSU) - custom fork of ReSukiSU designed specifically for Origin Kernel itself.
+- Bumped SUSFS to v2.4.0
+- Switched to Full LTO for better performance
+- Upgraded Compiler to Neutron Clang v24.0
+- Dropped MemKernel driver
+Improved CASS with the full upstream fix series
+- Introduced Origin-Vanilla - a rootless variant for custom ROM builds
 
-Scheduler and power:
-CASS avoids the prime CPU and the idle load balancer, honours uclamp, spreads load correctly on throttled CPUs and handles RT wakeups
-CACHE_HOT_BUDDY disabled to keep the idle CPU scan cheap
-Idle capacity scan starts after the target CPU
-Per-cluster limit on scaling_min_freq
-Boeffla wakelock blocker
-Wakelocks acquired without a timeout expire instead of pinning the device awake
-s2idle enters once per suspend attempt and drops the retry loop
-Suspend aborts kick the wakeup path once instead of looping
-Freezer timeout reduced to 1 second
-Alarm timer wakes the system when the next alarm expires
-PCI PME wakeups polled every 4 seconds
+## New Features:
+- Integrated Origin Veil - kernel side root probe monitoring and per-uid mount cloaking
+- Enabled KPM (Kernel Patch Module) loading with KALLSYMS_ALL
+- Integrated [ZeroMount](https://github.com/Enginex0/zeromount) VFS driver
+- Integrated BORE and ADIOS I/O scheduler
+- Integrated Boeffla Wakelock Blocker
+- Enabled WQ power efficiency
+- Enabled ZRAM multi compression, writeback and memory tracking
+- Enabled DAMON reclaim and LRU sorting
+- Enabled EROFS Zstandard compression
+- Enabled TTL target, CAKE, PIE and FQ-PIE as default qdisc
 
-Memory and storage:
-f2fs GC thread sleeps a minimum of 50 ms and the urgent path sleeps 50 ms
-f2fs minimum fsync blocks raised to 200
-f2fs congestion wait shortened to 6 ms
-vfs_cache_pressure lowered to 50
-jbd2 default commit age raised to 30 seconds
-struct file aligned to 8 bytes
-ZRAM recompression can allocate CMA pages
-
-Networking:
-Default socket buffer limits raised by 4x
-
-Core and architecture:
-arm64 memcmp, clear_page and copy_template optimised, with source prefetch in copy_template
-Generic memset, memcpy and memmove optimised in lib/string
-Unicode normalization bypass for empty decompositions fixed
-healthd, logd and dashd messages dropped from /dev/kmsg
-set affinity failed demoted to debug
-Duplicate vvar_pages enum and duplicate swap vendor hook declarations removed
-
-Backported Upstream Fixes:
-Linux 6.1.145 through 6.1.182
-Android Common Kernel android14-6.1.182_r00
-Android Common Kernel android14-6.1.177_r00 and r01
-Android Security Bulletin 2026-03 releases r10 through r25
-Android Security Bulletin 2026-06 releases r1 through r20
-Android Security Bulletin 2026-09 releases r1 through r8
+## Backported Upstream Fixes:
+- ZRAM — multi-stream compression for better ratios, plus recompression support.
+- f2fs — inline inode handling, compress cache validation, ACL fixes, write I/O UAF prevention.
+- ext4 — inline data bounds checking, superblock update checks, DAX restrictions on encrypted files.
+- mm — percpu bitmap overflow, page reporting UAF during suspend, vmalloc ptdump UAF, huge_zero_pfn race.
+- Scheduler — deadline migration warnings, RT push task race, PSI timer shutdown for power savings.
+- Network — IGMP UAF prevention, bridge multicast UAF fix, BBRv3 with Android KABI compliance.
+- Core — fchmodat2(), cachestat(), vDSO getrandom(), SCS unwinder fixes and optimized memcmp/memcpy/memset.
+- Vendor hooks — memcg PSI recording skip, migration batch hooks, direct reclaim hooks.
