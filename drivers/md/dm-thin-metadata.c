@@ -14,7 +14,8 @@
 #include <linux/device-mapper.h>
 #include <linux/workqueue.h>
 
-/*--------------------------------------------------------------------------
+/*
+ *--------------------------------------------------------------------------
  * As far as the metadata goes, there is:
  *
  * - A superblock in block zero, taking up fewer than 512 bytes for
@@ -70,7 +71,8 @@
  *
  * All metadata io is in THIN_METADATA_BLOCK_SIZE sized/aligned chunks
  * from the block manager.
- *--------------------------------------------------------------------------*/
+ *--------------------------------------------------------------------------
+ */
 
 #define DM_MSG_PREFIX   "thin metadata"
 
@@ -240,10 +242,11 @@ struct dm_thin_device {
 	uint32_t snapshotted_time;
 };
 
-/*----------------------------------------------------------------
+/*
+ *--------------------------------------------------------------
  * superblock validator
- *--------------------------------------------------------------*/
-
+ *--------------------------------------------------------------
+ */
 #define SUPERBLOCK_CSUM_XOR 160774
 
 static void sb_prepare_for_write(struct dm_block_validator *v,
@@ -297,10 +300,11 @@ static struct dm_block_validator sb_validator = {
 	.check = sb_check
 };
 
-/*----------------------------------------------------------------
+/*
+ *--------------------------------------------------------------
  * Methods for the btree value types
- *--------------------------------------------------------------*/
-
+ *--------------------------------------------------------------
+ */
 static uint64_t pack_block_time(dm_block_t b, uint32_t t)
 {
 	return (b << 24) | t;
@@ -399,6 +403,7 @@ static void subtree_dec(void *context, const void *value, unsigned int count)
 static int subtree_equal(void *context, const void *value1_le, const void *value2_le)
 {
 	__le64 v1_le, v2_le;
+
 	memcpy(&v1_le, value1_le, sizeof(v1_le));
 	memcpy(&v2_le, value2_le, sizeof(v2_le));
 
@@ -1521,9 +1526,9 @@ static int __find_block(struct dm_thin_device *td, dm_block_t block,
 	dm_block_t keys[2] = { td->id, block };
 	struct dm_btree_info *info;
 
-	if (can_issue_io) {
+	if (can_issue_io)
 		info = &pmd->info;
-	} else
+	else
 		info = &pmd->nb_info;
 
 	r = dm_btree_lookup(info, pmd->root, keys, &value);
