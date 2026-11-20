@@ -21,7 +21,9 @@
 #include <openssl/bio.h>
 #include <openssl/pem.h>
 #include <openssl/err.h>
+#if !defined(OPENSSL_NO_ENGINE) && !defined(OPENSSL_IS_BORINGSSL)
 #include <openssl/engine.h>
+#endif
 
 /*
  * OpenSSL 3.0 deprecates the OpenSSL's ENGINE API.
@@ -56,7 +58,7 @@ static void display_openssl_errors(int l)
 	}
 }
 
-#ifndef OPENSSL_IS_BORINGSSL
+#if !defined(OPENSSL_IS_BORINGSSL) && !defined(OPENSSL_NO_ENGINE)
 static void drain_openssl_errors(void)
 {
 	const char *file;
@@ -127,6 +129,9 @@ int main(int argc, char **argv)
 	} else if (!strncmp(cert_src, "pkcs11:", 7)) {
 #ifdef OPENSSL_IS_BORINGSSL
 		ERR(1, "BoringSSL does not support extracting from PKCS#11");
+		exit(1);
+#elif defined(OPENSSL_NO_ENGINE)
+		ERR(1, "OpenSSL was built without ENGINE support; cannot extract from PKCS#11");
 		exit(1);
 #else
 		ENGINE *e;
