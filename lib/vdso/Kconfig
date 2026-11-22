@@ -31,3 +31,8 @@ config GENERIC_VDSO_TIME_NS
 	  VDSO
 
 endif
+
+config VDSO_GETRANDOM
+	bool
+	help
+	  Selected by architectures that support vDSO getrandom().
